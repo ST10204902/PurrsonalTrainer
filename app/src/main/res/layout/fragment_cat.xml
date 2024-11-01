@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.fragments.CatFragment"
-    android:orientation="vertical">
+    tools:context=".screens.fragments.CatFragment">
 
-    <Button
-        android:id="@+id/cat_settings_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="settings"
-        android:layout_marginTop="100dp"/>
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="cat fragment" />
 
-    <Button
-        android:id="@+id/cat_shop_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="shop"/>
-
-</LinearLayout>
+</FrameLayout>
