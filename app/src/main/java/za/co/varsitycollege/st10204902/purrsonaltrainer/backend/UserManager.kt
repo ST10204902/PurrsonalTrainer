@@ -135,9 +135,9 @@ object UserManager {
             userID = userId,
             name = "",
             catName = "",
-            experiencePoints = "",
+            experiencePoints = 0,
             backgroundURI = "",
-            level = "",
+            level = 0,
             token = "",
             catURI = "",
             milkCoins = "",
@@ -192,7 +192,7 @@ object UserManager {
      * Updates the user's experience points
      * @param newPoints The new experience points to update the user with
      */
-    fun updateExperiencePoints(newPoints: String) {
+    fun updateExperiencePoints(newPoints: Int) {
         if (userIsLoggedIn()) {
             _userFlow.update { user ->
                 user?.copy(experiencePoints = newPoints)
@@ -209,6 +209,16 @@ object UserManager {
             }
         } else {
             Log.e("UserManager.updateToken", "User is not logged in")
+        }
+    }
+
+    fun updateLevel(newLevel: Int) {
+        if (userIsLoggedIn()) {
+            _userFlow.update { user ->
+                user?.copy(level = newLevel)
+            }
+        } else {
+            Log.e("UserManager.updateLevel", "User is not logged in")
         }
     }
 
