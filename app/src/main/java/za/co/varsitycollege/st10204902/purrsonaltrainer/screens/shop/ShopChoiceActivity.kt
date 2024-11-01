@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import za.co.varsitycollege.st10204902.purrsonaltrainer.databinding.ActivityShopChoiceBinding
+import za.co.varsitycollege.st10204902.purrsonaltrainer.services.navigateTo
 
 class ShopChoiceActivity : AppCompatActivity()
 {
@@ -15,5 +16,15 @@ class ShopChoiceActivity : AppCompatActivity()
         enableEdgeToEdge()
         binding = ActivityShopChoiceBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Navigation to ItemShopActivity
+        binding.itemsShopButton.setOnClickListener {
+            navigateTo(this, ItemShopActivity::class.java, null)
+        }
+
+        // Navigating to BackgroundShopActivity
+        binding.backgroundShopButton.setOnClickListener {
+            navigateTo(this, BackgroundShopActivity::class.java, null)
+        }
     }
 }
