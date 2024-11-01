@@ -3,7 +3,7 @@
     "project_number": "859936099389",
     "firebase_url": "https://purrsonal-trainer-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "purrsonal-trainer",
-    "storage_bucket": "purrsonal-trainer.appspot.com"
+    "storage_bucket": "purrsonal-trainer.firebasestorage.app"
   },
   "client": [
     {
@@ -14,6 +14,22 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "859936099389-5lssh9i169lkn774prusu3oqgnhan4f1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "za.co.varsitycollege.st10204902.purrsonaltrainer",
+            "certificate_hash": "8c37bb57cec58920d89eccfd108856895296ca43"
+          }
+        },
+        {
+          "client_id": "859936099389-npc8q7fpmhtti7m5nseg88i4blkdnikq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "za.co.varsitycollege.st10204902.purrsonaltrainer",
+            "certificate_hash": "0893451db7400a8a9b573a0e9ba991cd60996b23"
+          }
+        },
         {
           "client_id": "859936099389-19fcm5qa1m50jqb04hot8jqbjl12oc9m.apps.googleusercontent.com",
           "client_type": 3

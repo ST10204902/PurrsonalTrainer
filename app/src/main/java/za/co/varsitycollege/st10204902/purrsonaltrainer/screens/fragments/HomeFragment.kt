@@ -1,7 +1,16 @@
 package za.co.varsitycollege.st10204902.purrsonaltrainer.screens.fragments
 
+import android.Manifest
+import android.content.ComponentName
+import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.os.IBinder
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +18,14 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,6 +38,7 @@ import za.co.varsitycollege.st10204902.purrsonaltrainer.backend.UserManager
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.MonthWorkout
 import za.co.varsitycollege.st10204902.purrsonaltrainer.screens.workout_activities.StartEmptyWorkoutActivity
 import za.co.varsitycollege.st10204902.purrsonaltrainer.screens.workout_activities.StartWorkoutActivity
+import za.co.varsitycollege.st10204902.purrsonaltrainer.services.NotificationService
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.navigateTo
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -36,9 +50,26 @@ class HomeFragment : Fragment() {
     private lateinit var monthsAdapter: MonthsAdapter
     private var monthWorkoutList: List<MonthWorkout> = listOf()
     private lateinit var topSection: LinearLayout
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                // Permission is granted; you can now show notifications
+                Toast.makeText(requireContext(), "Notification permission granted", Toast.LENGTH_SHORT).show()
+            } else {
+                // Permission is denied
+                Toast.makeText(requireContext(), "Notification permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Request notification permission on Android 13+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                // Permission is not granted, request it
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
     }
 
     override fun onCreateView(
@@ -49,8 +80,26 @@ class HomeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            //val token = task.result
+
+            // Log and toast
+            //val msg = token
+            //Log.d(TAG, msg)
+            //Log.d(TAG, "FCM token: $token")
+            //Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+        })
 
         routinesRecyclerView = view.findViewById(R.id.routinesRecyclerView)
         topSection = view.findViewById<LinearLayout>(R.id.topSection)
