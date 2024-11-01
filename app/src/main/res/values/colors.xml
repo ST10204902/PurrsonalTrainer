@@ -97,4 +97,7 @@
     <color name="purple_start">#B6ABE3</color>
     <color name="purple_end">#5B45B4</color>
 
+    <color name="xp_level_gradient_start">#C64201</color>
+    <color name="xp_level_gradient_end">#C64201</color>
+
 </resources>
