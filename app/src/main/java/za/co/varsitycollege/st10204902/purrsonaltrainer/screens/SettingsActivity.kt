@@ -54,7 +54,8 @@ class SettingsActivity : AppCompatActivity() {
             Handler(Looper.getMainLooper()).postDelayed({
                 binding.catSettingsButton.background = originalBackgroundCatSettings
             }, 400)
-            navigateTo(this, CatSettingsActivity::class.java, null)
+            Toast.makeText(this, "Cat Settings is not yet implemented", Toast.LENGTH_SHORT).show()
+            //navigateTo(this, CatSettingsActivity::class.java, null)
         }
 
         binding.statisticsButton.setOnClickListener() {

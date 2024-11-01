@@ -7,9 +7,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import za.co.varsitycollege.st10204902.purrsonaltrainer.R
+import za.co.varsitycollege.st10204902.purrsonaltrainer.backend.UserManager
 import za.co.varsitycollege.st10204902.purrsonaltrainer.databinding.ActivityHomeBinding
-import za.co.varsitycollege.st10204902.purrsonaltrainer.screens.fragments.CatFragment
 import za.co.varsitycollege.st10204902.purrsonaltrainer.screens.fragments.HomeFragment
 import za.co.varsitycollege.st10204902.purrsonaltrainer.screens.fragments.RoutinesFragment
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.navigateTo
@@ -77,7 +79,7 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onResume(){
         super.onResume()
-        onHomeSelected(binding.customNavBar.homeIcon, binding.customNavBar.routinesIcon, binding.customNavBar.catIcon)
+        onHomeSelected(binding.customNavBar.homeIcon, binding.customNavBar.routinesIcon, binding.customNavBar.settingsIcon)
     }
 
     // Custom navbar methods
@@ -91,66 +93,66 @@ class HomeActivity : AppCompatActivity() {
         // ImageViews
         val homeIcon = binding.customNavBar.homeIcon
         val routinesIcon = binding.customNavBar.routinesIcon
-        val catIcon = binding.customNavBar.catIcon
+        val settingsIcon = binding.customNavBar.settingsIcon
 
         // onClicks
-        homeIcon.setOnClickListener { onHomeSelected(homeIcon, routinesIcon, catIcon) }
-        routinesIcon.setOnClickListener { onRoutinesSelected(homeIcon, routinesIcon, catIcon) }
-        catIcon.setOnClickListener { onCatSelected(homeIcon, routinesIcon, catIcon) }
+        homeIcon.setOnClickListener { onHomeSelected(homeIcon, routinesIcon, settingsIcon) }
+        routinesIcon.setOnClickListener { onRoutinesSelected(homeIcon, routinesIcon, settingsIcon) }
+        settingsIcon.setOnClickListener { onSettingsSelected(homeIcon, routinesIcon, settingsIcon) }
     }
 
-    private fun onHomeSelected(homeIcon: ImageView, routinesIcon: ImageView, catIcon: ImageView)
+    private fun onHomeSelected(homeIcon: ImageView, routinesIcon: ImageView, settingsIcon: ImageView)
     {
         // Icon
         homeIcon.setImageResource(R.drawable.home_selected)
         routinesIcon.setImageResource(R.drawable.routines_deselected)
-        catIcon.setImageResource(R.drawable.cat_deselected)
+        settingsIcon.setImageResource(R.drawable.settings_deselected)
         // Width
         homeIcon.layoutParams.width = 300
         routinesIcon.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
-        catIcon.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+        settingsIcon.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
         // Height
         homeIcon.layoutParams.height = 121
         routinesIcon.layoutParams.height = 90
-        catIcon.layoutParams.height = 90
+        settingsIcon.layoutParams.height = 90
         // Navigation
         FragmentUtils.navigateToFragment(HomeFragment())
     }
 
-    private fun onRoutinesSelected(homeIcon: ImageView, routinesIcon: ImageView, catIcon: ImageView)
+    private fun onRoutinesSelected(homeIcon: ImageView, routinesIcon: ImageView, settingsIcon: ImageView)
     {
         // Icon
         routinesIcon.setImageResource(R.drawable.routines_selected)
         homeIcon.setImageResource(R.drawable.home_deselected)
-        catIcon.setImageResource(R.drawable.cat_deselected)
+        settingsIcon.setImageResource(R.drawable.settings_deselected)
         // Width
         homeIcon.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
         routinesIcon.layoutParams.width = 400
-        catIcon.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+        settingsIcon.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
         // Height
         homeIcon.layoutParams.height = 90
         routinesIcon.layoutParams.height = 121
-        catIcon.layoutParams.height = 90
+        settingsIcon.layoutParams.height = 90
         // Navigation
         FragmentUtils.navigateToFragment(RoutinesFragment())
     }
 
-    private fun onCatSelected(homeIcon: ImageView, routinesIcon: ImageView, catIcon: ImageView)
+    private fun onSettingsSelected(homeIcon: ImageView, routinesIcon: ImageView, settingsIcon: ImageView)
     {
         // Icon
-        catIcon.setImageResource(R.drawable.cat_selected)
+        settingsIcon.setImageResource(R.drawable.settings_selected)
         homeIcon.setImageResource(R.drawable.home_deselected)
         routinesIcon.setImageResource(R.drawable.routines_deselected)
         // Width
         homeIcon.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
         routinesIcon.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
-        catIcon.layoutParams.width = 285
+        settingsIcon.layoutParams.width = 380
         // Height
         homeIcon.layoutParams.height = 90
         routinesIcon.layoutParams.height = 90
-        catIcon.layoutParams.height = 121
+        settingsIcon.layoutParams.height = 121
         // Navigation
-        FragmentUtils.navigateToFragment(CatFragment())
+        navigateTo(this, SettingsActivity::class.java, null)
     }
 }
 //------------------------***EOF***-----------------------------//
