@@ -7,4 +7,10 @@
     android:layout_height="match_parent"
     tools:context=".screens.settings_activities.CatSettingsActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="cat settings"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
