@@ -4,19 +4,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".screens.fragments.CatFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/cat_background_1"
+    android:paddingHorizontal="10dp"
+    android:paddingTop="30dp">
 
-    <Button
-        android:id="@+id/cat_settings_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="settings"
-        android:layout_marginTop="100dp"/>
+    <include layout="@layout/component_xp_bar"/>
 
-    <Button
-        android:id="@+id/cat_shop_button"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="shop"/>
+        android:gravity="end"
+        android:layout_marginTop="-5dp">
+
+        <ImageButton
+            android:id="@+id/cat_shop_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/icon_button_shape"
+            android:src="@drawable/shop_icon"
+            android:scaleType="fitXY"
+            android:padding="13dp"/>
+
+        <ImageButton
+            android:id="@+id/cat_settings_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/icon_button_shape"
+            android:src="@drawable/settings_deselected"
+            android:scaleType="fitXY"
+            android:padding="12dp"
+            android:layout_marginStart="12dp"/>
+    </LinearLayout>
 
 </LinearLayout>
