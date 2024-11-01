@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.fragments.CatFragment"
+    tools:context=".screens.shop.ShopChoiceActivity"
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/cat_settings_button"
+        android:id="@+id/items_shop_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="settings"
+        android:text="items"
         android:layout_marginTop="100dp"/>
 
     <Button
-        android:id="@+id/cat_shop_button"
+        android:id="@+id/background_shop_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="shop"/>
+        android:text="backgrounds"/>
 
 </LinearLayout>
