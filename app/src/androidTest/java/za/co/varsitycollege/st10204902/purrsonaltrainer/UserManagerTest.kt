@@ -40,7 +40,7 @@ class UserManagerTest {
             name = "Test User",
             catName = "Test Cat",
             milkCoins = "0",
-            experiencePoints = "0",
+            experiencePoints = 0,
             backgroundURI = "test background uri",
             catURI = "test cat uri",
             userRoutines = emptyMap(),
@@ -112,7 +112,7 @@ class UserManagerTest {
 
     @Test
     fun updateExperiencePoints_withValidPoints_updatesExperiencePoints() = runBlocking {
-        val newExperiencePoints = "100"
+        val newExperiencePoints = 100
         UserManager.updateExperiencePoints(newExperiencePoints)
         val updatedUser = UserManager.user
         assertNotNull("User should not be null", updatedUser)

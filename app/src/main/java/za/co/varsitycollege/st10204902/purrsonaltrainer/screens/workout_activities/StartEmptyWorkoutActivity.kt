@@ -14,6 +14,7 @@ import za.co.varsitycollege.st10204902.purrsonaltrainer.adapters.OnSetsUpdatedLi
 import za.co.varsitycollege.st10204902.purrsonaltrainer.adapters.WorkoutExercisesAdapter
 import za.co.varsitycollege.st10204902.purrsonaltrainer.backend.UserManager
 import za.co.varsitycollege.st10204902.purrsonaltrainer.databinding.ActivityStartEmptyWorkoutBinding
+import za.co.varsitycollege.st10204902.purrsonaltrainer.models.User
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.UserRoutine
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.UserWorkout
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.WorkoutExercise
@@ -24,6 +25,7 @@ import za.co.varsitycollege.st10204902.purrsonaltrainer.services.ExerciseAddedLi
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.RoutineBuilder
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.RoutineConverter
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.SlideUpPopup
+import za.co.varsitycollege.st10204902.purrsonaltrainer.services.WorkoutXPCalculator
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.navigateTo
 import java.text.SimpleDateFormat
 import java.time.Duration
@@ -74,14 +76,17 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
 
         binding.doneButton.setOnClickListener {
             // Update workout in database
-            saveUserWorkout()
+            val workout = saveUserWorkout()
+
 
             // UI stuffs (Anneme)
             binding.doneButton.setBackgroundResource(R.drawable.svg_green_bblbtn_clicked)
             Handler(Looper.getMainLooper()).postDelayed({
                 binding.doneButton.background = binding.doneButton.background
             }, 400)
-
+            val calculator = WorkoutXPCalculator()
+            val xp = calculator.calculateXP(workout)
+            calculator.updateUserLevelAndXP(xp)
             UserManager.resetWorkoutInProgress()
 
             // Navigating back to home activity
@@ -92,7 +97,7 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
     /**
      * Saves the current workout to the UserManager.
      */
-    private fun saveUserWorkout() {
+    private fun saveUserWorkout(): UserWorkout {
         val newWorkout = UserWorkout(
             workoutID = boundWorkout!!.workoutID,
             workoutExercises = RoutineBuilder.exercises, // using RoutineBuilder for exercises
@@ -103,8 +108,11 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
             color = boundWorkout!!.color
         )
 
+
+
         UserManager.updateUserWorkout(boundWorkout!!.workoutID, newWorkout)
         UserManager.updateWorkoutInProgress(newWorkout.workoutID)
+        return newWorkout
     }
 
     /**
@@ -175,6 +183,7 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
                 binding.workoutTitle.text = boundWorkout!!.name
             } else {
                 binding.workoutTitle.text = "Empty Workout"
+
             }
             setTitleColor(boundWorkout!!.color)
 
