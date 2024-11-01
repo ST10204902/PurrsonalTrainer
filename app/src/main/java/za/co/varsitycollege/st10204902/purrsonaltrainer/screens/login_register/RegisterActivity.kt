@@ -97,6 +97,7 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            // Register the user
             CoroutineScope(Dispatchers.IO).launch {
                 Log.d("RegisterActivity", "The coroutine is running")
                 val authManager = AuthManager()
@@ -118,7 +119,7 @@ class RegisterActivity : AppCompatActivity() {
                                 UserManager.setUpSingleton(userID)
                             }.invokeOnCompletion {
                                 // Navigate to the next screen
-                                navigateTo(this@RegisterActivity, HomeActivity::class.java, null)
+                                navigateTo(this@RegisterActivity, ProfileSetupActivity::class.java, null)
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
