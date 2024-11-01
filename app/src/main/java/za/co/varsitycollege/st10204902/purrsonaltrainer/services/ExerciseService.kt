@@ -11,6 +11,46 @@ import java.io.InputStreamReader
 import java.util.Locale
 
 class ExerciseService(private val context: Context) {
+    companion object {
+        val defaultCategories: List<String> = if (Locale.getDefault().language == "af") {
+            listOf(
+                "adduktore",
+                "middelrug",
+                "kalfspiere",
+                "gluteus",
+                "hamstrings",
+                "lats",
+                "triseps",
+                "bors",
+                "rug",
+                "maagspiere",
+                "skouers",
+                "biseps",
+                "laerug",
+                "kwadriseps"
+            )
+        } else {
+            listOf(
+                "lower back",
+                "biceps",
+                "traps",
+                "adductors",
+                "abs",
+                "middle back",
+                "glutes",
+                "neck",
+                "calves",
+                "shoulders",
+                "triceps",
+                "forearms",
+                "abductors",
+                "hamstrings",
+                "quads",
+                "lats",
+                "chest"
+            )
+        }
+    }
 
     //                          PROPERTIES                       //
     //-----------------------------------------------------------//
@@ -23,45 +63,7 @@ class ExerciseService(private val context: Context) {
     /**
      * List of all default exercise categories
      */
-    val defaultCategories: List<String> = if (Locale.getDefault().language == "af") {
-        listOf(
-            "adduktore",
-            "middelrug",
-            "kalfspiere",
-            "gluteus",
-            "hamstrings",
-            "lats",
-            "triseps",
-            "bors",
-            "rug",
-            "maagspiere",
-            "skouers",
-            "biseps",
-            "laerug",
-            "kwadriseps"
-        )
-    } else {
-        listOf(
-            "lower back",
-            "biceps",
-            "traps",
-            "adductors",
-            "abs",
-            "middle back",
-            "glutes",
-            "neck",
-            "calves",
-            "shoulders",
-            "triceps",
-            "forearms",
-            "abductors",
-            "hamstrings",
-            "quads",
-            "lats",
-            "chest"
-        )
-    }
-
+    val defaultCategories: List<String> = Companion.defaultCategories
     //-----------------------------------------------------------//
     //                          METHODS                          //
     //-----------------------------------------------------------//

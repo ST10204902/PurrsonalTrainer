@@ -47,6 +47,8 @@ data class User(
     val catName: String = "",
     val milkCoins: String = "",
     val experiencePoints: String = "",
+    val level: String = "",
+    val token: String = "",
     val backgroundURI: String = "",
     val catURI: String = "",
     val workoutInProgress: String = "",
