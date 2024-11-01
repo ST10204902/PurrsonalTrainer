@@ -9,7 +9,7 @@
     android:paddingHorizontal="10dp"
     android:paddingTop="30dp">
 
-    <include layout="@layout/component_xp_bar"/>
+    <include android:id="@+id/xp_bar" layout="@layout/component_xp_bar"/>
 
     <LinearLayout
         android:layout_width="match_parent"

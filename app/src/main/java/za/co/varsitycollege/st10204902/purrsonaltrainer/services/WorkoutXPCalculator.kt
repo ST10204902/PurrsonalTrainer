@@ -105,4 +105,15 @@ class WorkoutXPCalculator {
         }
         UserManager.updateLevel(currentLevel)
     }
+
+    fun getLevelPercentageComplete(): Double {
+        val user = UserManager.user!!
+        val xpRequirements = calculateXPRequirements()
+        val currentXP = user.experiencePoints
+        val nextLevelXP = xpRequirements[currentLevel]
+        val previousLevelXP = xpRequirements[currentLevel - 1]
+        val levelXPRange = nextLevelXP - previousLevelXP
+        val currentLevelXP = currentXP - previousLevelXP
+        return (currentLevelXP.toDouble() / levelXPRange)
+    }
 }
