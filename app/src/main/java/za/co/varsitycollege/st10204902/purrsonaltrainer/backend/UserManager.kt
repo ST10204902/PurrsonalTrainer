@@ -137,6 +137,8 @@ object UserManager {
             catName = "",
             experiencePoints = "",
             backgroundURI = "",
+            level = "",
+            token = "",
             catURI = "",
             milkCoins = "",
             userRoutines = emptyMap(),
@@ -197,6 +199,16 @@ object UserManager {
             }
         } else {
             Log.e("UserManager.updateExperiencePoints", "User is not logged in")
+        }
+    }
+
+    fun updateToken(newToken: String) {
+        if (userIsLoggedIn()) {
+            _userFlow.update { user ->
+                user?.copy(token = newToken)
+            }
+        } else {
+            Log.e("UserManager.updateToken", "User is not logged in")
         }
     }
 
