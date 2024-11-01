@@ -5,6 +5,11 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.shop.ShopInsideItemsActivity">
+    tools:context=".screens.shop.ShopChoiceActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="shop choice"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

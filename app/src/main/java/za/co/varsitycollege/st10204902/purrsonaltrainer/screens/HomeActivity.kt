@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import za.co.varsitycollege.st10204902.purrsonaltrainer.R
 import za.co.varsitycollege.st10204902.purrsonaltrainer.databinding.ActivityHomeBinding
+import za.co.varsitycollege.st10204902.purrsonaltrainer.screens.fragments.CatFragment
 import za.co.varsitycollege.st10204902.purrsonaltrainer.screens.fragments.HomeFragment
 import za.co.varsitycollege.st10204902.purrsonaltrainer.screens.fragments.RoutinesFragment
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.navigateTo
@@ -149,7 +150,7 @@ class HomeActivity : AppCompatActivity() {
         routinesIcon.layoutParams.height = 90
         catIcon.layoutParams.height = 121
         // Navigation
-        navigateTo(this, SettingsActivity::class.java, null)
+        FragmentUtils.navigateToFragment(CatFragment())
     }
 }
 //------------------------***EOF***-----------------------------//
