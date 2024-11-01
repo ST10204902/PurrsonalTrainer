@@ -16,6 +16,15 @@
         android:theme="@style/Theme.PurrsonalTrainer"
         tools:targetApi="31">
         <activity
+            android:name=".screens.shop.BackgroundShopActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screens.shop.ItemShopActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screens.shop.ShopChoiceActivity"
+            android:exported="false" />
+        <activity
             android:name=".screens.workout_activities.StartWorkoutActivity"
             android:exported="false" />
         <activity
