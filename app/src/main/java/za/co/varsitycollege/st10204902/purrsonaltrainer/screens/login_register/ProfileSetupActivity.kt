@@ -13,7 +13,6 @@ import za.co.varsitycollege.st10204902.purrsonaltrainer.services.navigateTo
 
 class ProfileSetupActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProfileSetupBinding
-    private lateinit var catSwipableView: SwipeSelectorView // custom component for choosing cats
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
