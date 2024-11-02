@@ -13,6 +13,7 @@ import za.co.varsitycollege.st10204902.purrsonaltrainer.R
 import za.co.varsitycollege.st10204902.purrsonaltrainer.adapters.CreateRoutineExercisesAdapter.CreateRoutineExercisesViewHolder
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.WorkoutExercise
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.WorkoutSet
+import za.co.varsitycollege.st10204902.purrsonaltrainer.services.ExerciseService
 
 class WorkoutExercisesAdapter(
     private val exercises: List<WorkoutExercise>,
@@ -46,9 +47,11 @@ class WorkoutExercisesAdapter(
         // Binding initial notes to exercise notes
         holder.notes.setText(exercise.notes)
 
+        val exerciseService = ExerciseService(context)
         // Binding routineSets
         val setsList = exercise.sets.values.toMutableList()
-        val adapter = WorkoutSetsAdapter(setsList, context)
+        val previousWeightList = exerciseService.getPreviousWorkoutExercises(exercise.exerciseID, setsList)
+        val adapter = WorkoutSetsAdapter(setsList,previousWeightList, context)
         holder.workoutSets.adapter = adapter
         holder.workoutSets.layoutManager = LinearLayoutManager(context)
 

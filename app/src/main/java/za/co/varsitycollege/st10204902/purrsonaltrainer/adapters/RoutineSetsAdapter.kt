@@ -13,11 +13,13 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import za.co.varsitycollege.st10204902.purrsonaltrainer.R
+import za.co.varsitycollege.st10204902.purrsonaltrainer.models.Exercise
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.WorkoutSet
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.SetBuilder
 
 class RoutineSetsAdapter(
     private val sets: MutableList<WorkoutSet>,
+    private val previousWeights:  List<String>,
     private val context: Context,
 ) : RecyclerView.Adapter<RoutineSetsAdapter.RoutineSetsViewHolder>()
 {
@@ -39,6 +41,7 @@ class RoutineSetsAdapter(
     override fun onBindViewHolder(holder: RoutineSetsViewHolder, position: Int)
     {
         val set = sets[position]
+        val previousWeight = previousWeights[position]
 
         // setType
         when (set.setType)
@@ -68,6 +71,8 @@ class RoutineSetsAdapter(
         if (set.reps != null)
             holder.repsInput.setText(set.reps.toString())
 
+
+        holder.previousWeight.text = previousWeight
 
 
         holder.weightInput.addTextChangedListener(object : TextWatcher {

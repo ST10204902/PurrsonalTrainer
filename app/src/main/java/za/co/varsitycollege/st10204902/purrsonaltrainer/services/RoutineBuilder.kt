@@ -142,12 +142,17 @@ object RoutineBuilder {
      */
     fun buildRoutine(): UserRoutine {
         val newRoutine =  UserRoutine(routineID, name , color, description, exercises)
+        clearRoutine()
+        return newRoutine
+    }
+
+    fun clearRoutine()
+    {
         routineID= CreateID.GenerateID()
         name = ""
         description = ""
         exercises = mutableMapOf()
         color = ""
-        return newRoutine
     }
 
 

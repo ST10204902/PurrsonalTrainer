@@ -5,9 +5,9 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import za.co.varsitycollege.st10204902.purrsonaltrainer.backend.CreateID
 import za.co.varsitycollege.st10204902.purrsonaltrainer.backend.UserManager
-import za.co.varsitycollege.st10204902.purrsonaltrainer.models.Exercise
-import za.co.varsitycollege.st10204902.purrsonaltrainer.models.UserRoutine
+import za.co.varsitycollege.st10204902.purrsonaltrainer.models.*
 import java.io.InputStreamReader
+import java.util.Date
 import java.util.Locale
 
 class ExerciseService(private val context: Context) {
@@ -140,5 +140,60 @@ class ExerciseService(private val context: Context) {
         }
         return listToSearch.filter { it.exerciseName.contains(search, ignoreCase = true) }
     }
+
+ /**
+ * Retrieves the previous workout exercises for a given exercise ID.
+ *
+ * @param exerciseID The ID of the exercise to retrieve previous workout data for.
+ * @param setsList The list of current workout sets.
+ * @return A list of strings representing the weight and reps of the previous workout sets.
+ */
+fun getPreviousWorkoutExercises(exerciseID: String, setsList: MutableList<WorkoutSet>): List<String> {
+    // List to store the weight and reps of the previous workout sets
+    val previousWorkoutExerciseWeightAndReps = mutableListOf<String>()
+    // List to return the weight and reps of the previous workout sets
+    val toReturn = mutableListOf<String>()
+    // Current date
+    val date = Date()
+    // Variable to store the most recent date of the previous workout
+    var mostRecentDate = Date(0)
+
+    // Check if the user exists and has workouts
+    UserManager.user?.userWorkouts?.let { workouts ->
+        // Iterate through each workout
+        workouts.values.forEach { userWorkout ->
+            // Check if the workout date is before the current date and after the most recent date found
+            if (userWorkout.date.before(date) && userWorkout.date.after(mostRecentDate)) {
+                // Update the most recent date
+                mostRecentDate = userWorkout.date
+                // Clear the previous workout sets list
+                previousWorkoutExerciseWeightAndReps.clear()
+                // Iterate through each exercise in the workout
+                userWorkout.workoutExercises.values.forEach { workoutExercise ->
+                    // Check if the exercise ID matches the given exercise ID
+                    if (workoutExercise.exerciseID == exerciseID) {
+                        // Iterate through each set in the exercise
+                        workoutExercise.sets.values.forEach { workoutSet ->
+                            // Add the weight and reps of the set to the list
+                            previousWorkoutExerciseWeightAndReps.add("${workoutSet.weight} x ${workoutSet.reps}")
+                        }
+                    }
+                }
+            }
+        }
+        // Iterate through the current sets list
+        for (i in 0 until setsList.size) {
+            // Check if the index is within the bounds of the previous workout sets list
+            if (i < previousWorkoutExerciseWeightAndReps.size) {
+                // Add the weight and reps of the previous workout set to the return list
+                val weightAndReps = previousWorkoutExerciseWeightAndReps[i]
+                toReturn.add(weightAndReps)
+            }
+        }
+    }
+    // Return the list of previous workout sets
+    return toReturn
+}
+
 }
 //------------------------***EOF***-----------------------------//

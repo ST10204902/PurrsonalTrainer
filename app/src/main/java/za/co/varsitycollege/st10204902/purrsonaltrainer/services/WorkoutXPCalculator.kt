@@ -1,7 +1,6 @@
 package za.co.varsitycollege.st10204902.purrsonaltrainer.services
 
 import za.co.varsitycollege.st10204902.purrsonaltrainer.backend.UserManager
-import za.co.varsitycollege.st10204902.purrsonaltrainer.models.User
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.UserWorkout
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.WorkoutExercise
 
@@ -38,8 +37,6 @@ class WorkoutXPCalculator {
     private val baseXP = 7000
     private val totalLevels = 69
 
-    private var currentLevel = 1
-
     /**
      * Calculates the amount of XP a user earns from a workout.
      *
@@ -64,7 +61,7 @@ class WorkoutXPCalculator {
         val muscleWeighting = muscleGroupWeightings.getOrDefault(exercise.category, defaultWeighting)
         var setXP = 0
         for (set in exercise.sets.values) {
-            if (set.weight != null || set.reps != null) {
+            if (set.weight != null && set.reps != null) {
                 setXP += (set.weight!! * set.reps!! * muscleWeighting).toInt()
             }
         }
@@ -74,17 +71,17 @@ class WorkoutXPCalculator {
     /**
      * Calculates the XP requirements for each level.
      *
-     * @return A list of XP requirements for each level.
+     * @return A list of XP requirements for each level (incremental XP).
      */
     private fun calculateXPRequirements(): List<Int> {
-        val xpRequirements = mutableListOf(0) // Level 1 starts at 0 XP
-        for (level in 2..totalLevels) {
+        val xpRequirements = mutableListOf<Int>() // XP required to go from level N to N+1
+        for (level in 1 until totalLevels) {
             val milestoneIndex = (level - 1) / 10
             val scalingFactor = scalingFactors[minOf(milestoneIndex, scalingFactors.size - 1)]
-            val previousXP = xpRequirements.last()
-            val newXP = previousXP + (baseXP * scalingFactor).toInt()
-            xpRequirements.add(newXP)
+            val levelXP = (baseXP * scalingFactor).toInt()
+            xpRequirements.add(levelXP)
         }
+        println(xpRequirements)
         return xpRequirements
     }
 
@@ -96,24 +93,52 @@ class WorkoutXPCalculator {
     fun updateUserLevelAndXP(totalXP: Int) {
         val user = UserManager.user!!
         val xpRequirements = calculateXPRequirements()
-        var accumulatedXP = user.experiencePoints + totalXP
-        UserManager.updateExperiencePoints(accumulatedXP)
-        // Determine the new level and remaining XP
-        while (currentLevel < totalLevels && accumulatedXP >= xpRequirements[currentLevel]) {
-            accumulatedXP -= xpRequirements[currentLevel]
+        var currentXP = user.experiencePoints + totalXP
+        var currentLevel = user.level
+
+        // Level up while current XP exceeds XP required for the next level
+        while (currentLevel < totalLevels && currentXP >= xpRequirements.getOrNull(currentLevel - 1) ?: Int.MAX_VALUE) {
+            currentXP -= xpRequirements.getOrNull(currentLevel - 1) ?: 0
             currentLevel++
         }
+
+        // Cap at max level
+        if (currentLevel >= totalLevels) {
+            currentLevel = totalLevels
+            currentXP = 0 // No more XP needed after max level
+        }
+
+        UserManager.updateExperiencePoints(currentXP)
         UserManager.updateLevel(currentLevel)
     }
 
+    /**
+     * Calculates the percentage of XP completed towards the next level.
+     *
+     * @return A value between 0.0 and 1.0 representing the progress to the next level.
+     */
     fun getLevelPercentageComplete(): Double {
         val user = UserManager.user!!
         val xpRequirements = calculateXPRequirements()
         val currentXP = user.experiencePoints
-        val nextLevelXP = xpRequirements[currentLevel]
-        val previousLevelXP = xpRequirements[currentLevel - 1]
-        val levelXPRange = nextLevelXP - previousLevelXP
-        val currentLevelXP = currentXP - previousLevelXP
-        return (currentLevelXP.toDouble() / levelXPRange)
+        val currentLevel = user.level
+
+        // Handle max level scenario
+        if (currentLevel >= totalLevels) {
+            return 1.0
+        }
+
+        val xpNeededForNextLevel = xpRequirements.getOrNull(currentLevel - 1) ?: Int.MAX_VALUE
+
+        // Calculate progress percentage
+        val progressPercentage = if (xpNeededForNextLevel > 0) {
+            println("currentXP: $currentXP, xpNeededForNextLevel: $xpNeededForNextLevel")
+            currentXP.toDouble() / xpNeededForNextLevel.toDouble()
+        } else {
+            0.0
+        }
+println("progressPercentage: $progressPercentage")
+        // Cap the progress percentage at 1.0
+        return minOf(progressPercentage, 1.0)
     }
 }

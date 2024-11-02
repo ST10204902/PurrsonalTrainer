@@ -38,7 +38,7 @@ class CatFragment : Fragment() {
         // Setup xp bar and level
         val xpBar = view.findViewById<LinearLayout>(R.id.xp_bar)
         val level = xpBar.findViewById<GradientTextView>(R.id.cat_level)
-        var xpBarProgress = xpBar.findViewById<ImageView>(R.id.progressBarProgress)
+        val xpBarProgress = xpBar.findViewById<ImageView>(R.id.progressBarProgress)
         val progressbarContainer = xpBar.findViewById<FrameLayout>(R.id.progressBarContainer)
         val progressBarContent = xpBar.findViewById<ConstraintLayout>(R.id.progressBarContent)
 
@@ -60,8 +60,14 @@ class CatFragment : Fragment() {
 
                 // Update the width of progressBarProgress
                 val params = xpBarProgress.layoutParams
-                params.width = newWidth
-                xpBarProgress.layoutParams = params
+                if (newWidth > 0) {
+                    params.width = newWidth
+                    xpBarProgress.layoutParams = params
+                }
+                else {
+                    params.width = 1
+                    xpBarProgress.layoutParams = params
+                }
             }
         }
 
