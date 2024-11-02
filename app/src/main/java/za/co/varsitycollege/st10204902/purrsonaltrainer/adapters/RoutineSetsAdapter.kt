@@ -40,9 +40,15 @@ class RoutineSetsAdapter(
 
     override fun onBindViewHolder(holder: RoutineSetsViewHolder, position: Int)
     {
+        val previousWeight: String
         val set = sets[position]
-        val previousWeight = previousWeights[position]
-
+        if (previousWeights.count() <= position)
+        {
+            previousWeight = ""
+        }
+        else {
+            previousWeight = previousWeights[position]
+        }
         // setType
         when (set.setType)
         {
