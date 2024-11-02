@@ -20,6 +20,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,12 +45,16 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
+
 class HomeFragment : Fragment() {
 
     private lateinit var routinesRecyclerView: RecyclerView
     private lateinit var monthsAdapter: MonthsAdapter
     private var monthWorkoutList: List<MonthWorkout> = listOf()
     private lateinit var topSection: LinearLayout
+
+    private var exerciseDuration: Long = 0L
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) {
@@ -60,17 +65,36 @@ class HomeFragment : Fragment() {
                 Toast.makeText(requireContext(), "Notification permission denied", Toast.LENGTH_SHORT).show()
             }
         }
+    private val requiredPermissions = arrayOf(
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.POST_NOTIFICATIONS,  // Optional if you also want to request notification permission
+        Manifest.permission.FOREGROUND_SERVICE_LOCATION
+    )
+
+    fun checkAndRequestPermissions() {
+        val permissionsToRequest = requiredPermissions.filter {
+            ContextCompat.checkSelfPermission(requireContext(), it) != PackageManager.PERMISSION_GRANTED
+        }
+
+        if (permissionsToRequest.isNotEmpty()) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                permissionsToRequest.toTypedArray(),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
+        } else {
+            // Permissions are already granted, proceed with your functionality
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Request notification permission on Android 13+
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                // Permission is not granted, request it
-                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-            }
-        }
+        checkAndRequestPermissions()
     }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,15 +114,6 @@ class HomeFragment : Fragment() {
                 Log.w(TAG, "Fetching FCM registration token failed", task.exception)
                 return@OnCompleteListener
             }
-
-            // Get new FCM registration token
-            //val token = task.result
-
-            // Log and toast
-            //val msg = token
-            //Log.d(TAG, msg)
-            //Log.d(TAG, "FCM token: $token")
-            //Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
         })
 
         routinesRecyclerView = view.findViewById(R.id.routinesRecyclerView)
