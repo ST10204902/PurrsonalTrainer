@@ -7,22 +7,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toDrawable
 import za.co.varsitycollege.st10204902.purrsonaltrainer.R
 import za.co.varsitycollege.st10204902.purrsonaltrainer.backend.UserManager
 import za.co.varsitycollege.st10204902.purrsonaltrainer.frontend_logic.GradientTextView
-import za.co.varsitycollege.st10204902.purrsonaltrainer.models.User
 import za.co.varsitycollege.st10204902.purrsonaltrainer.screens.SettingsActivity
 import za.co.varsitycollege.st10204902.purrsonaltrainer.screens.shop.ShopChoiceActivity
-import za.co.varsitycollege.st10204902.purrsonaltrainer.services.CatAvatarList
+import za.co.varsitycollege.st10204902.purrsonaltrainer.services.GetCatDrawableId
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.WorkoutXPCalculator
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.navigateTo
 
@@ -84,9 +80,7 @@ class CatFragment : Fragment() {
         val catAvatar = view.findViewById<ImageView>(R.id.cat_fragment_avatar)
         try
         {
-            val position = UserManager.user!!.catURI.toInt()
-            val drawableId = CatAvatarList[position]
-            val drawable = ContextCompat.getDrawable(requireContext(), drawableId)
+            val drawable = ContextCompat.getDrawable(requireContext(), GetCatDrawableId())
             catAvatar.setImageDrawable(drawable)
         }
         catch (e: Exception)

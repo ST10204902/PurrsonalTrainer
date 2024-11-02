@@ -8,7 +8,7 @@ import za.co.varsitycollege.st10204902.purrsonaltrainer.backend.UserManager
 import za.co.varsitycollege.st10204902.purrsonaltrainer.components.SwipeSelectorView
 import za.co.varsitycollege.st10204902.purrsonaltrainer.databinding.ActivityCatSettingsBinding
 import za.co.varsitycollege.st10204902.purrsonaltrainer.screens.SettingsActivity
-import za.co.varsitycollege.st10204902.purrsonaltrainer.services.CatAvatarList
+import za.co.varsitycollege.st10204902.purrsonaltrainer.services.GetCatAvatars
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.navigateTo
 
 /**
@@ -49,7 +49,7 @@ class CatSettingsActivity : AppCompatActivity() {
     {
         // CatAvatarSetup
         swipableSelector = binding.catSettingsCatSwipeSelector
-        swipableSelector.setItems(CatAvatarList) {}
+        swipableSelector.setItems(GetCatAvatars()) {}
 
         // Get the fur pattern currently chosen by the user
         try

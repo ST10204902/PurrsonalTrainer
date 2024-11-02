@@ -5,10 +5,9 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import za.co.varsitycollege.st10204902.purrsonaltrainer.backend.UserManager
-import za.co.varsitycollege.st10204902.purrsonaltrainer.components.SwipeSelectorView
 import za.co.varsitycollege.st10204902.purrsonaltrainer.databinding.ActivityProfileSetupBinding
 import za.co.varsitycollege.st10204902.purrsonaltrainer.screens.HomeActivity
-import za.co.varsitycollege.st10204902.purrsonaltrainer.services.CatAvatarList
+import za.co.varsitycollege.st10204902.purrsonaltrainer.services.GetCatAvatars
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.navigateTo
 
 class ProfileSetupActivity : AppCompatActivity() {
@@ -25,7 +24,7 @@ class ProfileSetupActivity : AppCompatActivity() {
 
         // CatAvatarSetup
         val swipableSelector = binding.profileSetupCatSwipeSelector
-        swipableSelector.setItems(CatAvatarList) {}
+        swipableSelector.setItems(GetCatAvatars()) {}
 
         // Navigation from next button
         binding.profileSetupNext.setOnClickListener {
