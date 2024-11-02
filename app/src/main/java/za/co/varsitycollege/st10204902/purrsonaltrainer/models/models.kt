@@ -15,7 +15,7 @@ import java.util.Date
  */
 @IgnoreExtraProperties
 data class Item(
-    val itemID: String = CreateID.GenerateID(),
+    val itemID: String = "",
     val name: String = "",
     val description: String = "",
     val cost: Int = 0,
@@ -48,10 +48,10 @@ data class User(
     val milkCoins: String = "",
     val experiencePoints: Int = 0,
     val level:  Int = 0,
-    val token: String = "",
     val backgroundURI: String = "",
     val catURI: String = "",
     val workoutInProgress: String = "",
+    val equipedItem: String = "",
     val userRoutines: Map<String, UserRoutine> = emptyMap(),
     val userWorkouts: Map<String, UserWorkout> = emptyMap(),
     val userExercises: Map<String, Exercise> = emptyMap(),

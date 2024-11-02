@@ -138,7 +138,7 @@ object UserManager {
             experiencePoints = 0,
             backgroundURI = "",
             level = 0,
-            token = "",
+            equipedItem = "",
             catURI = "",
             milkCoins = "",
             userRoutines = emptyMap(),
@@ -189,6 +189,20 @@ object UserManager {
     }
 
     /**
+     * Updates the user's equiped item
+     * @param newItem The new item to update the user with
+     */
+    fun updateEquipedItem(newItem: String) {
+        if (userIsLoggedIn()) {
+            _userFlow.update { user ->
+                user?.copy(equipedItem = newItem)
+            }
+        } else {
+            Log.e("UserManager.updateEquipedItem", "User is not logged in")
+        }
+    }
+
+    /**
      * Updates the user's experience points
      * @param newPoints The new experience points to update the user with
      */
@@ -202,15 +216,7 @@ object UserManager {
         }
     }
 
-    fun updateToken(newToken: String) {
-        if (userIsLoggedIn()) {
-            _userFlow.update { user ->
-                user?.copy(token = newToken)
-            }
-        } else {
-            Log.e("UserManager.updateToken", "User is not logged in")
-        }
-    }
+
 
     fun updateLevel(newLevel: Int) {
         if (userIsLoggedIn()) {
