@@ -78,6 +78,8 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.picasso:picasso:2.71828")
     implementation ("com.google.android.material:material:1.10.0")
+    implementation ("com.google.firebase:firebase-messaging:23.1.1")
+
 
     // Use Firebase BOM for managing Firebase dependencies
     implementation(platform("com.google.firebase:firebase-bom:31.5.0"))
@@ -104,5 +106,8 @@ dependencies {
 
     androidTestImplementation("androidx.test.ext:junit:1.1.5") // AndroidX JUnit extensions
     androidTestImplementation("androidx.test:runner:1.6.2") // AndroidX Test Runner
+
+    // For swipeable component
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
 
 }

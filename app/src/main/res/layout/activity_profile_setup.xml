@@ -17,14 +17,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/bg_paws_and_fish"/>
+        app:srcCompat="@drawable/bg_paws_and_fish" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingVertical="30dp">
 
-        <za.co.varsitycollege.st10204902.purrsonaltrainer.frontend_logic.GradientTextView
+        <za.co.varsitycollege.st10204902.purrsonaltrainer.frontend_logic.GradientEditText
             android:id="@+id/profile_setup_cat_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,14 +37,11 @@
             app:strokeColor="@color/default_stroke_color"
             app:strokeWidth="15dp" />
 
-        <TextView
+        <za.co.varsitycollege.st10204902.purrsonaltrainer.components.SwipeSelectorView
+            android:id="@+id/profile_setup_cat_swipe_selector"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/comboBoxGrey"
-            android:text="Cat selection placeholder"
-            android:textAlignment="center"
-            android:gravity="center"/>
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/profile_setup_next"
