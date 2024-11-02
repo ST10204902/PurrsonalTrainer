@@ -1,5 +1,6 @@
 package za.co.varsitycollege.st10204902.purrsonaltrainer.screens.workout_activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -22,6 +23,8 @@ import za.co.varsitycollege.st10204902.purrsonaltrainer.models.WorkoutSet
 import za.co.varsitycollege.st10204902.purrsonaltrainer.screens.HomeActivity
 import za.co.varsitycollege.st10204902.purrsonaltrainer.screens.fragments.ChooseCategoryFragment
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.ExerciseAddedListener
+import za.co.varsitycollege.st10204902.purrsonaltrainer.services.NotificationService
+import za.co.varsitycollege.st10204902.purrsonaltrainer.services.NotificationService.Companion.dismissContinuousNotification
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.RoutineBuilder
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.RoutineConverter
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.SlideUpPopup
@@ -56,7 +59,7 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
 
         // Bind UI to Workout fields (if they exist)
         bindWorkoutDetails()
-
+        startContinuousNotification()
         // Add Exercise functionality
         setupAddExerciseButton()
 
@@ -78,6 +81,11 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
             // Update workout in database
             val workout = saveUserWorkout()
 
+
+            val intent = Intent(this, NotificationService::class.java)
+            stopService(intent)
+
+            dismissContinuousNotification(this)
 
             // UI stuffs (Anneme)
             binding.doneButton.setBackgroundResource(R.drawable.svg_green_bblbtn_clicked)
@@ -380,4 +388,13 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
         // Saving current version of workout
         this.saveUserWorkout()
     }
+
+    private fun startContinuousNotification() {
+        // Start the continuous notification
+        val intent = Intent(this, NotificationService::class.java)
+        this.startService(intent) // Ensure the service is running
+        NotificationService.showContinuousNotification(this,boundWorkout!!.date.time)
+    }
+
+
 }
