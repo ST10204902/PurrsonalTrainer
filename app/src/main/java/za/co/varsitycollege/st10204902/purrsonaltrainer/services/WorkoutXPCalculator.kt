@@ -58,7 +58,7 @@ class WorkoutXPCalculator {
             "1" -> {
                 for ((_, exercise) in userWorkout.workoutExercises) {
                     if (exercise.category == "lats" || exercise.category == "traps" || exercise.category == "forearms") {
-                        bonusXP += getXPPerSet(exercise)
+                        bonusXP += (getXPPerSet(exercise) * 0.2).toInt()
                     }
                 }
             }
