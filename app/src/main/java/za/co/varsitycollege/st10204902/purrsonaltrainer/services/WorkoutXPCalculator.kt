@@ -3,11 +3,13 @@ package za.co.varsitycollege.st10204902.purrsonaltrainer.services
 import za.co.varsitycollege.st10204902.purrsonaltrainer.backend.UserManager
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.UserWorkout
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.WorkoutExercise
+import za.co.varsitycollege.st10204902.purrsonaltrainer.stores.ItemsStore
 
 /**
  * Class responsible for calculating XP for workouts.
  */
 class WorkoutXPCalculator {
+    val globalItems = ItemsStore.globalItems
 
     // Weighting for each muscle group
     private val muscleGroupWeightings = mapOf(
@@ -37,6 +39,60 @@ class WorkoutXPCalculator {
     private val baseXP = 7000
     private val totalLevels = 69
 
+
+    fun calculateItemBonusXP(userWorkout: UserWorkout): Int {
+        if (UserManager.user == null) {
+            return 0
+        }
+        val currentUser = UserManager.user!!
+        var bonusXP = 0
+        //switch statement
+        when (currentUser.equipedItem) {
+            "0" -> {
+                for ((_, exercise) in userWorkout.workoutExercises) {
+                    if (exercise.exerciseName.contains("deadlift",true) || exercise.exerciseName.contains("squat",true)  || exercise.exerciseName.contains("Bench Press",true) ) {
+                        bonusXP += getXPPerSet(exercise)
+                    }
+                }
+            }
+            "1" -> {
+                for ((_, exercise) in userWorkout.workoutExercises) {
+                    if (exercise.category == "lats" || exercise.category == "traps" || exercise.category == "forearms") {
+                        bonusXP += getXPPerSet(exercise)
+                    }
+                }
+            }
+            "2" -> {
+                var bonusMilkCoins = 1
+                for ((_, exercise) in userWorkout.workoutExercises) {
+                        bonusXP += getXPPerSet(exercise)
+                        bonusMilkCoins++
+                }
+                UserManager.updateMilkCoins(currentUser.milkCoins + bonusMilkCoins)
+                bonusXP /= 2
+                bonusXP *= -1
+            }
+            "3" -> {
+                // check if the workout happened between 12am-8am
+                if (userWorkout.date.time % 86400000 in 0..28800000) {
+                    for ((_, exercise) in userWorkout.workoutExercises) {
+                            bonusXP += getXPPerSet(exercise)
+                    }
+                   val temp = bonusXP
+                    bonusXP = (temp / 10).toInt()
+                }
+
+            }
+            "4" -> {
+                for ((_, exercise) in userWorkout.workoutExercises) {
+                    bonusXP += getXPPerSet(exercise)
+                }
+                bonusXP = (bonusXP * 1.4).toInt()
+            }
+        }
+        return bonusXP
+    }
+
     /**
      * Calculates the amount of XP a user earns from a workout.
      *
@@ -48,6 +104,8 @@ class WorkoutXPCalculator {
         for ((_, exercise) in userWorkout.workoutExercises) {
             totalXP += getXPPerSet(exercise)
         }
+        val bonusXP = calculateItemBonusXP(userWorkout)
+        totalXP += bonusXP
         return totalXP
     }
 
@@ -95,11 +153,15 @@ class WorkoutXPCalculator {
         val xpRequirements = calculateXPRequirements()
         var currentXP = user.experiencePoints + totalXP
         var currentLevel = user.level
+        var levelGainMilkCoins = 0
+        // user gets 1 coin just for submitting a workout
+        levelGainMilkCoins++
 
         // Level up while current XP exceeds XP required for the next level
         while (currentLevel < totalLevels && currentXP >= xpRequirements.getOrNull(currentLevel - 1) ?: Int.MAX_VALUE) {
             currentXP -= xpRequirements.getOrNull(currentLevel - 1) ?: 0
             currentLevel++
+            levelGainMilkCoins++
         }
 
         // Cap at max level
@@ -110,6 +172,7 @@ class WorkoutXPCalculator {
 
         UserManager.updateExperiencePoints(currentXP)
         UserManager.updateLevel(currentLevel)
+        UserManager.updateMilkCoins(user.milkCoins + levelGainMilkCoins)
     }
 
     /**
@@ -142,3 +205,4 @@ println("progressPercentage: $progressPercentage")
         return minOf(progressPercentage, 1.0)
     }
 }
+
