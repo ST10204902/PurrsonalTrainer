@@ -105,4 +105,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5") // AndroidX JUnit extensions
     androidTestImplementation("androidx.test:runner:1.6.2") // AndroidX Test Runner
 
+    // For swipeable component
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+
 }
