@@ -146,7 +146,7 @@ class WorkoutXPCalculator {
         var setXP = 0
         Log.d(TAG, "Calculating XP for exercise: ${exercise.exerciseName}, category: ${exercise.category}, muscle weighting: ${muscleWeighting}")
         for (set in exercise.sets.values) {
-            if (set.weight != null && set.reps != null) {
+            if (set.weight != null && set.reps != null && set.completed) {
                 val xpForSet = (set.weight!! * set.reps!! * muscleWeighting).toInt()
                 setXP += xpForSet
                 Log.d(TAG, "Set ID: ${set.workoutSetID}, weight: ${set.weight}, reps: ${set.reps}, XP for set: ${xpForSet}")
