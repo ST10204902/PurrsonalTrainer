@@ -26,6 +26,7 @@ import za.co.varsitycollege.st10204902.purrsonaltrainer.services.ExerciseAddedLi
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.NotificationService
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.NotificationService.Companion.dismissContinuousNotification
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.RoutineBuilder
+import za.co.varsitycollege.st10204902.purrsonaltrainer.services.RoutineBuilderProvider
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.RoutineConverter
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.SlideUpPopup
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.WorkoutXPCalculator
@@ -42,9 +43,11 @@ import java.util.Locale
  * Activity to start an empty workout.
  * Implements ExerciseAddedListener and OnSetsUpdatedListener interfaces.
  */
-class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, OnSetsUpdatedListener {
+class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, OnSetsUpdatedListener,
+    RoutineBuilderProvider {
     private lateinit var binding: ActivityStartEmptyWorkoutBinding
     private lateinit var exercisesRecyclerView: RecyclerView
+    override val routineBuilder = RoutineBuilder()
     var boundWorkout: UserWorkout? = null
 
     /**
@@ -73,7 +76,7 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
      */
     private fun setupDoneButton() {
         // Subscribing this activity to the ExerciseAddedListener for the RoutineBuilder
-        RoutineBuilder.addExerciseAddedListener(this)
+        routineBuilder.addExerciseAddedListener(this)
         // Check for existing exercises
         this.onExerciseAdded()
 
@@ -108,7 +111,7 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
     private fun saveUserWorkout(): UserWorkout {
         val newWorkout = UserWorkout(
             workoutID = boundWorkout!!.workoutID,
-            workoutExercises = RoutineBuilder.exercises, // using RoutineBuilder for exercises
+            workoutExercises = routineBuilder.exercises, // using routineBuilder for exercises
             date = boundWorkout!!.date,
             name = getWorkoutTitle(),
             durationSeconds = calculateWorkoutDuration(),
@@ -152,7 +155,7 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
         )
 
         addButton.setOnClickListener { popup.showPopup() }
-        RoutineBuilder.addExerciseAddedListener(this)
+        routineBuilder.addExerciseAddedListener(this)
     }
 
     /**
@@ -166,10 +169,10 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
                 this.boundWorkout = UserWorkout()
                 UserManager.addUserWorkout(this.boundWorkout!!)
 
-                // TODO: Remove the exercises from RoutineBuilder for empty workout
-            } else { // Add existing exercises in the boundWorkout to the RoutineBuilder
+                // TODO: Remove the exercises from routineBuilder for empty workout
+            } else { // Add existing exercises in the boundWorkout to the routineBuilder
                 for (exercise in boundWorkout!!.workoutExercises) {
-                    RoutineBuilder.addWorkoutExercise(exercise.value)
+                    routineBuilder.addWorkoutExercise(exercise.value)
                 }
             }
         }
@@ -345,10 +348,10 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
      * Called when an exercise is added.
      */
     override fun onExerciseAdded() {
-        if (RoutineBuilder.hasAnExercise()) {
+        if (routineBuilder.hasAnExercise()) {
             try {
                 val recyclerView = binding.workoutExercises
-                val userExercises = RoutineBuilder.exercises.values.toMutableList()
+                val userExercises = routineBuilder.exercises.values.toMutableList()
                 val adapter = WorkoutExercisesAdapter(userExercises, this)
                 adapter.addSetUpdatedListener(this)
                 recyclerView.adapter = adapter
@@ -373,7 +376,7 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
             setsMap[it.workoutSetID] = it
         }
 
-        val oldExercise = RoutineBuilder.exercises[exerciseID]
+        val oldExercise = routineBuilder.exercises[exerciseID]
         val newExercise = WorkoutExercise(
             exerciseID,
             oldExercise?.exerciseName!!,
@@ -383,7 +386,7 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
             oldExercise.notes,
             oldExercise.measurementType
         )
-        RoutineBuilder.addWorkoutExercise(newExercise)
+        routineBuilder.addWorkoutExercise(newExercise)
 
         // Saving current version of workout
         this.saveUserWorkout()

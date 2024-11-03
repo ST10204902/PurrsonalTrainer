@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import za.co.varsitycollege.st10204902.purrsonaltrainer.R
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.Exercise
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.WorkoutSet
-import za.co.varsitycollege.st10204902.purrsonaltrainer.services.SetBuilder
 
 class RoutineSetsAdapter(
     private val sets: MutableList<WorkoutSet>,

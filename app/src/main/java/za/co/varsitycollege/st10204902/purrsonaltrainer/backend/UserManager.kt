@@ -979,9 +979,12 @@ object UserManager {
                 addUserWorkout(workoutMonday)
                 addUserWorkout(workoutWednesday)
 
-                addExerciseToWorkout(workoutMonday.workoutID, RoutineBuilder.convertToWorkoutExercise(exerciseBenchPress))
-                addExerciseToWorkout(workoutMonday.workoutID, RoutineBuilder.convertToWorkoutExercise(exerciseSquat))
-                addExerciseToWorkout(workoutWednesday.workoutID, RoutineBuilder.convertToWorkoutExercise(exerciseDeadlift))
+                val routineBuilder = RoutineBuilder()
+
+
+                addExerciseToWorkout(workoutMonday.workoutID, routineBuilder.convertToWorkoutExercise(exerciseBenchPress))
+                addExerciseToWorkout(workoutMonday.workoutID, routineBuilder.convertToWorkoutExercise(exerciseSquat))
+                addExerciseToWorkout(workoutWednesday.workoutID, routineBuilder.convertToWorkoutExercise(exerciseDeadlift))
 
                 // Add sets to Bench Press exercise
                 addWorkoutSetToWorkoutExercise(workoutMonday.workoutID, exerciseBenchPress.exerciseID, bpSet1)

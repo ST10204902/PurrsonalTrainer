@@ -17,12 +17,14 @@ import za.co.varsitycollege.st10204902.purrsonaltrainer.adapters.ExerciseAdapter
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.Exercise
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.ExerciseService
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.RoutineBuilder
+import za.co.varsitycollege.st10204902.purrsonaltrainer.services.RoutineBuilderProvider
 
 /**
  * Fragment for displaying a list of exercises and allowing the user to add exercises to a routine.
  */
 class AddExerciseListFragment : Fragment() {
     private var categoryId: String? = null
+    private lateinit var routineBuilder: RoutineBuilder
 
     /**
      * Called to do initial creation of the fragment.
@@ -48,6 +50,9 @@ class AddExerciseListFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_add_exercise_list, container, false)
 
+        routineBuilder = (activity as? RoutineBuilderProvider)?.routineBuilder
+            ?: throw IllegalStateException("Parent activity must implement RoutineBuilderProvider")
+
         val exerciseService = ExerciseService(requireContext())
         //maintain a list of ALL exercises in the category
         val fullListOfCategoryExercises = exerciseService.getExerciseInCategory(categoryId!!)
@@ -62,7 +67,7 @@ class AddExerciseListFragment : Fragment() {
 
         recyclerView.adapter = ExerciseAdapter(displayedExerciseList, requireContext(), object : ExerciseAdapter.OnItemClickListener{
             override fun onItemClick(exercise: Exercise) {
-                RoutineBuilder.addExercise(exercise)
+                routineBuilder.addExercise(exercise)
                 exerciseService.updateExerciseService()
                 requireActivity().findViewById<FrameLayout>(R.id.chooseCategoryFragmentContainer).visibility = View.GONE
                 requireActivity().findViewById<View>(R.id.chooseCategoryDismissArea).visibility = View.GONE
@@ -91,7 +96,7 @@ class AddExerciseListFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {
                 recyclerView.adapter = ExerciseAdapter(displayedExerciseList, requireContext(), object : ExerciseAdapter.OnItemClickListener{
                     override fun onItemClick(exercise: Exercise) {
-                        RoutineBuilder.addExercise(exercise)
+                        routineBuilder.addExercise(exercise)
                         exerciseService.updateExerciseService()
                         requireActivity().findViewById<FrameLayout>(R.id.chooseCategoryFragmentContainer).visibility = View.GONE
                         requireActivity().findViewById<View>(R.id.chooseCategoryDismissArea).visibility = View.GONE

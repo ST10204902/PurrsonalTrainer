@@ -59,7 +59,7 @@ private val requiredPermissions = arrayOf(
     Manifest.permission.ACCESS_COARSE_LOCATION,
     // Remove or adjust any invalid permissions
     // Manifest.permission.POST_NOTIFICATIONS, // Include only if targeting Android 13+
-)
+    )
 
     fun checkAndRequestPermissions() {
         try {
