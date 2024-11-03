@@ -213,6 +213,8 @@ class GamifiedStatsManager(private val context: Context) {
      * @return The updated user.
      */
     fun updateUserStatsAfterWorkout(user: User, workout: UserWorkout, equippedItem: Item?) {
+        val x = getTotalXPForLevel(69)
+        Log.i("TOTAL GAME XP FOR 100% run", x.toString())
         val totalXP = calculateTotalXPForWorkout(workout, equippedItem, user)
         val totalMilkCoins = calculateMilkCoinsForWorkout(workout, equippedItem, user.level)
 
@@ -269,8 +271,11 @@ class GamifiedStatsManager(private val context: Context) {
         // Base milk coins per workout
         var milkCoins = 1 // User gets 1 coin just for submitting a workout
 
+        val totalItemCost = 60.0
+        val levelNeededToPurchaseAllItems = 50
+
         // Scaling factor to ensure enough milk coins by a certain level
-        val scalingFactor = (60.0 / (20 * averageWorkoutsPerLevel())).toInt()
+        val scalingFactor = (totalItemCost / (levelNeededToPurchaseAllItems * averageWorkoutsPerLevel())).toInt()
         milkCoins *= scalingFactor
 
         // Modify based on item effects
@@ -298,13 +303,16 @@ class GamifiedStatsManager(private val context: Context) {
      * @return A list of XP requirements for each level (incremental XP).
      */
     private fun calculateXPRequirements(): List<Int> {
+        var totalgameXP = 0
         val xpRequirements = mutableListOf<Int>() // XP required to go from level N to N+1
         for (level in 1 until maxLevel) {
             val xpForLevel = (baseXPRequirement * Math.pow(xpScalingFactor, (level - 1).toDouble())).toInt()
             xpRequirements.add(xpForLevel)
-            Log.d(TAG, "Level $level: XP required to level up: $xpForLevel")
+            totalgameXP += xpForLevel
         }
+        Log.i("TOTAL GAME XP", totalgameXP.toString())
         return xpRequirements
+
     }
 
     /**
