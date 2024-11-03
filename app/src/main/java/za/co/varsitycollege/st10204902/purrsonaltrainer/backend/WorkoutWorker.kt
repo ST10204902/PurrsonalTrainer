@@ -349,10 +349,12 @@ class WorkoutWorker(
                             Log.d("WorkoutWorker", "Matching exerciseID found: $exerciseID")
                             // Iterate through each set in the exercise
                             workoutExercise.sets.values.forEach { workoutSet ->
-                                val weightAndReps = "${workoutSet.weight} x ${workoutSet.reps}"
-                                Log.d("WorkoutWorker", "Adding set: $weightAndReps")
-                                // Add the weight and reps of the set to the list
-                                previousWorkoutExerciseWeightAndReps.add(weightAndReps)
+                                if (workoutSet.completed) {
+                                    val weightAndReps = "${workoutSet.weight} x ${workoutSet.reps}"
+                                    Log.d("WorkoutWorker", "Adding set: $weightAndReps")
+                                    // Add the weight and reps of the set to the list
+                                    previousWorkoutExerciseWeightAndReps.add(weightAndReps)
+                                }
                             }
                         }
                     }
