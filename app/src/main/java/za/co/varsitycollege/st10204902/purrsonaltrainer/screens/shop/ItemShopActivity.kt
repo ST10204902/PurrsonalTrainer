@@ -1,51 +1,121 @@
 package za.co.varsitycollege.st10204902.purrsonaltrainer.screens.shop
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Window
+import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import za.co.varsitycollege.st10204902.purrsonaltrainer.R
 import za.co.varsitycollege.st10204902.purrsonaltrainer.databinding.ActivityItemShopBinding
+import za.co.varsitycollege.st10204902.purrsonaltrainer.databinding.ComponentItemPopupBinding
+import za.co.varsitycollege.st10204902.purrsonaltrainer.models.Item
+import za.co.varsitycollege.st10204902.purrsonaltrainer.stores.ItemsStore
 
-class ItemShopActivity : AppCompatActivity()
-{
+class ItemShopActivity : AppCompatActivity() {
     private lateinit var binding: ActivityItemShopBinding
 
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityItemShopBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Setup of Items
-        val background1 = binding.shopItem1
-        background1.shopItemName.text = "Nick's Creatine"
-        background1.shopItemImage.setImageResource(R.drawable.item_nick)
-        background1.milkcoinsComponent.milkcoinsAmount.reInitialiseComponent(R.color.item_nick_start, R.color.item_nick_end)
+        setupShopItems()
+        setupClickListeners()
+        setupCoinsDisplay()
+    }
 
-        val background2 = binding.shopItem2
-        background2.shopItemName.text = "Michael's Earphones"
-        background2.shopItemImage.setImageResource(R.drawable.item_michael)
-        background2.milkcoinsComponent.milkcoinsAmount.reInitialiseComponent(R.color.item_michael_start, R.color.item_michael_end)
+    private fun setupShopItems() {
+        // Map the global items to the shop item views
+        val items = ItemsStore.globalItems
 
-        val background3 = binding.shopItem3
-        background3.shopItemName.text = "Harvey's Cookies"
-        background3.shopItemImage.setImageResource(R.drawable.item_harvey)
-        background3.milkcoinsComponent.milkcoinsAmount.reInitialiseComponent(R.color.item_harvey_start, R.color.item_harvey_end)
+        // Setup of Items with data from ItemsStore
+        setupShopItem(binding.shopItem1, items.getOrNull(0),
+            R.drawable.item_nick, R.color.item_nick_start, R.color.item_nick_end)
 
-        val background4 = binding.shopItem4
-        background4.shopItemName.text = "Jasper's Hoodie"
-        background4.shopItemImage.setImageResource(R.drawable.item_jasper)
-        background4.milkcoinsComponent.milkcoinsAmount.reInitialiseComponent(R.color.item_jasper_start, R.color.item_jasper_end)
+        setupShopItem(binding.shopItem2, items.getOrNull(1),
+            R.drawable.michael_item, R.color.item_michael_start, R.color.item_michael_end)
 
-        val background5 = binding.shopItem5
-        background5.shopItemName.text = "Anneme's Plumbob"
-        background5.shopItemImage.setImageResource(R.drawable.item_anneme)
-        background5.milkcoinsComponent.milkcoinsAmount.reInitialiseComponent(R.color.item_anneme_start, R.color.item_anneme_end)
+        setupShopItem(binding.shopItem3, items.getOrNull(2),
+            R.drawable.item_harvey, R.color.item_harvey_start, R.color.item_harvey_end)
 
-        // Setup Coins
-        binding.backgroundShopCoins.milkcoinsAmount.reInitialiseComponent(R.color.background_balance_start, R.color.background_balance_end)
+        setupShopItem(binding.shopItem4, items.getOrNull(3),
+            R.drawable.item_jasper, R.color.item_jasper_start, R.color.item_jasper_end)
+
+        setupShopItem(binding.shopItem5, items.getOrNull(4),
+            R.drawable.item_anneme, R.color.item_anneme_start, R.color.item_anneme_end)
+    }
+
+    private fun setupShopItem(
+        shopItemBinding: za.co.varsitycollege.st10204902.purrsonaltrainer.databinding.ComponentShopItemBinding,
+        item: Item?,
+        imageResource: Int,
+        startColorRes: Int,
+        endColorRes: Int
+    ) {
+        item?.let {
+            shopItemBinding.apply {
+                shopItemName.text = it.name
+                shopItemImage.setImageResource(imageResource)
+                milkcoinsComponent.milkcoinsAmount.reInitialiseComponent(startColorRes, endColorRes)
+                root.setOnClickListener { _ ->
+                    showItemDetailsDialog(it)
+                }
+            }
+        }
+    }
+
+    private fun setupClickListeners() {
+        // Add any additional click listeners here if needed
+    }
+
+    private fun setupCoinsDisplay() {
+        binding.backgroundShopCoins.milkcoinsAmount.reInitialiseComponent(
+            R.color.background_balance_start,
+            R.color.background_balance_end
+        )
+    }
+
+    private fun showItemDetailsDialog(item: Item) {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+
+        val dialogBinding = ComponentItemPopupBinding.inflate(layoutInflater)
+        dialog.setContentView(dialogBinding.root)
+
+        // Set dialog window size
+        dialog.window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+
+        dialog.window?.apply {
+            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+        }
+
+        with(dialogBinding) {
+            itemName.text = item.name
+            itemDescription.text = item.description
+            tvPrice.text = item.cost.toString()
+
+            // Load item image
+            val resourceId = resources.getIdentifier(
+                item.itemURI,
+                "drawable",
+                packageName
+            )
+            itemImage.setImageResource(resourceId)
+
+            btnPurchase.setOnClickListener {
+                // Implement purchase logic here
+                dialog.dismiss()
+            }
+        }
+
+        dialog.show()
     }
 }
