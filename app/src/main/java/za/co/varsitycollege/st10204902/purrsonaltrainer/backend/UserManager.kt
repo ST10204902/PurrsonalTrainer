@@ -175,6 +175,23 @@ object UserManager {
     }
 
     /**
+     * Updates the user's level
+     * @param newLevel The new level to update the user with
+     */
+    fun updateUserInventory(newItem: Item) {
+        if (userIsLoggedIn()) {
+            _userFlow.update { user ->
+                user?.let {
+                    val updatedInventory = user.userInventory + (newItem.itemID to newItem)
+                    it.copy(userInventory = updatedInventory)
+                }
+            }
+        } else {
+            Log.e("UserManager.updateUserInventory", "User is not logged in")
+        }
+    }
+
+    /**
      * Updates the user's cat name
      * @param newCatName The new cat name to update the user with
      */
