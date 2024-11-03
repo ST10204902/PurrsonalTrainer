@@ -53,45 +53,58 @@ class HomeFragment : Fragment() {
     private lateinit var monthsAdapter: MonthsAdapter
     private var monthWorkoutList: List<MonthWorkout> = listOf()
     private lateinit var topSection: LinearLayout
-
-    private var exerciseDuration: Long = 0L
-    private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-            if (isGranted) {
-                // Permission is granted; you can now show notifications
-                Toast.makeText(requireContext(), "Notification permission granted", Toast.LENGTH_SHORT).show()
-            } else {
-                // Permission is denied
-                Toast.makeText(requireContext(), "Notification permission denied", Toast.LENGTH_SHORT).show()
-            }
-        }
-    private val requiredPermissions = arrayOf(
-        Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.POST_NOTIFICATIONS,  // Optional if you also want to request notification permission
-        Manifest.permission.FOREGROUND_SERVICE_LOCATION
-    )
+//---------------------------------PROBLEM AREA---------------------------------//
+private val requiredPermissions = arrayOf(
+    Manifest.permission.ACCESS_FINE_LOCATION,
+    Manifest.permission.ACCESS_COARSE_LOCATION,
+    // Remove or adjust any invalid permissions
+    // Manifest.permission.POST_NOTIFICATIONS, // Include only if targeting Android 13+
+)
 
     fun checkAndRequestPermissions() {
-        val permissionsToRequest = requiredPermissions.filter {
-            ContextCompat.checkSelfPermission(requireContext(), it) != PackageManager.PERMISSION_GRANTED
-        }
+        try {
+            val permissionsToRequest = requiredPermissions.filter {
+                ContextCompat.checkSelfPermission(requireContext(), it) != PackageManager.PERMISSION_GRANTED
+            }
 
-        if (permissionsToRequest.isNotEmpty()) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                permissionsToRequest.toTypedArray(),
-                LOCATION_PERMISSION_REQUEST_CODE
-            )
-        } else {
-            // Permissions are already granted, proceed with your functionality
+            if (permissionsToRequest.isNotEmpty()) {
+                requestPermissions(
+                    permissionsToRequest.toTypedArray(),
+                    LOCATION_PERMISSION_REQUEST_CODE
+                )
+            } else {
+                Log.d(TAG, "All permissions already granted")
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error checking permissions: ${e.message}")
         }
     }
+
+
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            LOCATION_PERMISSION_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                    // Permissions granted, proceed with functionality
+                } else {
+                    // Permissions denied, handle accordingly
+                    Toast.makeText(requireContext(), "Permissions denied", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+//---------------------------------PROBLEM AREA---------------------------------//
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Request notification permission on Android 13+
-        checkAndRequestPermissions()
+       checkAndRequestPermissions()
     }
 
 
