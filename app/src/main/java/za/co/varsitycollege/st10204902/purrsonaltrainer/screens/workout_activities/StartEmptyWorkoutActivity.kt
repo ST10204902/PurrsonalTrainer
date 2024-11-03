@@ -288,7 +288,7 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
 
         // Add exercises if navigated to from a routine
         if (boundWorkout != null) {
-            val adapter = WorkoutExercisesAdapter(boundWorkout!!.workoutExercises.values.toList(), this)
+            val adapter = WorkoutExercisesAdapter(boundWorkout!!.workoutExercises.values.toList(),boundWorkout!!.workoutID, this)
             exercisesRecyclerView.adapter = adapter
             exercisesRecyclerView.layoutManager = LinearLayoutManager(this)
         }
@@ -352,7 +352,7 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
             try {
                 val recyclerView = binding.workoutExercises
                 val userExercises = routineBuilder.exercises.values.toMutableList()
-                val adapter = WorkoutExercisesAdapter(userExercises, this)
+                val adapter = WorkoutExercisesAdapter(userExercises,boundWorkout!!.workoutID, this)
                 adapter.addSetUpdatedListener(this)
                 recyclerView.adapter = adapter
                 recyclerView.layoutManager = LinearLayoutManager(this)

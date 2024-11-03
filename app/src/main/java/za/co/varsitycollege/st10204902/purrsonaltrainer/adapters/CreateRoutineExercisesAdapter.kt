@@ -55,7 +55,8 @@ open class CreateRoutineExercisesAdapter(
         val workoutWorker = WorkoutWorker(UserManager.user!!.userWorkouts)
         // Binding routineSets
         val setsList = exercise.sets.values.toMutableList()
-        val previousWeightList = workoutWorker.getPreviousWorkoutExercises(exercise.exerciseID, setsList)
+        // no workoutID as this is a routine
+        val previousWeightList = workoutWorker.getPreviousWorkoutExercises(exercise.exerciseID,"", setsList)
         val adapter = RoutineSetsAdapter(setsList,previousWeightList, context)
         holder.routineSets.adapter = adapter
         holder.routineSets.layoutManager = LinearLayoutManager(context)

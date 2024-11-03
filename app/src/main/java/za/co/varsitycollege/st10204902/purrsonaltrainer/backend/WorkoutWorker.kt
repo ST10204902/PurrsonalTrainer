@@ -310,7 +310,14 @@ class WorkoutWorker(
      * @param setsList The list of current workout sets.
      * @return A list of strings representing the weight and reps of the previous workout sets.
      */
-    fun getPreviousWorkoutExercises(exerciseID: String, setsList: MutableList<WorkoutSet>): List<String> {
+    /**
+     * Retrieves the previous workout exercises for a given exercise ID.
+     *
+     * @param exerciseID The ID of the exercise to retrieve previous workout data for.
+     * @param setsList The list of current workout sets.
+     * @return A list of strings representing the weight and reps of the previous workout sets.
+     */
+    fun getPreviousWorkoutExercises(exerciseID: String, workoutID: String, setsList: MutableList<WorkoutSet>): List<String> {
         // List to store the weight and reps of the previous workout sets
         val previousWorkoutExerciseWeightAndReps = mutableListOf<String>()
         // List to return the weight and reps of the previous workout sets
@@ -320,46 +327,57 @@ class WorkoutWorker(
         // Variable to store the most recent date of the previous workout
         var mostRecentDate = Date(0)
 
+        Log.d("WorkoutWorker", "Starting getPreviousWorkoutExercises for exerciseID: $exerciseID")
+
         try {
-                // Iterate through each workout
-                usersWorkouts.values.forEach { userWorkout ->
-                    // Check if the workout date is before the current date and after the most recent date found
-                    if (userWorkout.date.before(date) && userWorkout.date.after(mostRecentDate)) {
-                        // Update the most recent date
-                        mostRecentDate = userWorkout.date
-                        // Clear the previous workout sets list
-                        previousWorkoutExerciseWeightAndReps.clear()
-                        // Iterate through each exercise in the workout
-                        userWorkout.workoutExercises.values.forEach { workoutExercise ->
-                            // Check if the exercise ID matches the given exercise ID
-                            if (workoutExercise.exerciseID == exerciseID) {
-                                // Iterate through each set in the exercise
-                                workoutExercise.sets.values.forEach { workoutSet ->
-                                    // Add the weight and reps of the set to the list
-                                    previousWorkoutExerciseWeightAndReps.add("${workoutSet.weight} x ${workoutSet.reps}")
-                                }
+            // Iterate through each workout
+            usersWorkouts.values.forEach { userWorkout ->
+                Log.d("WorkoutWorker", "Checking workout date: ${userWorkout.date}")
+                // Check if the workout date is before the current date and after the most recent date found
+                if (userWorkout.date.before(date) && userWorkout.date.after(mostRecentDate) && userWorkout.workoutID != workoutID) {
+                    Log.d("WorkoutWorker", "Found a more recent workout on date: ${userWorkout.date}")
+                    // Update the most recent date
+                    mostRecentDate = userWorkout.date
+                    // Clear the previous workout sets list
+                    previousWorkoutExerciseWeightAndReps.clear()
+
+                    // Iterate through each exercise in the workout
+                    userWorkout.workoutExercises.values.forEach { workoutExercise ->
+                        Log.d("WorkoutWorker", "Checking workoutExercise with ID: ${workoutExercise.exerciseID}")
+                        // Check if the exercise ID matches the given exercise ID
+                        if (workoutExercise.exerciseID == exerciseID) {
+                            Log.d("WorkoutWorker", "Matching exerciseID found: $exerciseID")
+                            // Iterate through each set in the exercise
+                            workoutExercise.sets.values.forEach { workoutSet ->
+                                val weightAndReps = "${workoutSet.weight} x ${workoutSet.reps}"
+                                Log.d("WorkoutWorker", "Adding set: $weightAndReps")
+                                // Add the weight and reps of the set to the list
+                                previousWorkoutExerciseWeightAndReps.add(weightAndReps)
                             }
                         }
                     }
                 }
-                // Ensure toReturn is longer than setsList
-                for (i in 0 until setsList.size + 1) {
-                    // Check if the index is within the bounds of the previous workout sets list
-                    if (i < previousWorkoutExerciseWeightAndReps.size) {
-                        // Add the weight and reps of the previous workout set to the return list
-                        val weightAndReps = previousWorkoutExerciseWeightAndReps[i]
-                        toReturn.add(weightAndReps)
-                    } else {
-                        // Add an empty string if there are no more previous sets
-                        toReturn.add("")
-                    }
+            }
+
+            // Ensure toReturn is longer than setsList
+            for (i in 0 until setsList.size + 1) {
+                if (i < previousWorkoutExerciseWeightAndReps.size) {
+                    val weightAndReps = previousWorkoutExerciseWeightAndReps[i]
+                    Log.d("WorkoutWorker", "Adding weight and reps to return list: $weightAndReps")
+                    toReturn.add(weightAndReps)
+                } else {
+                    Log.d("WorkoutWorker", "Adding empty string to return list")
+                    toReturn.add("")
                 }
+            }
 
         } catch (e: Exception) {
-            Log.e("ExerciseService", "Error retrieving previous workout exercises", e)
+            Log.e("WorkoutWorker", "Error retrieving previous workout exercises", e)
         }
 
+        Log.d("WorkoutWorker", "Completed getPreviousWorkoutExercises, returning: $toReturn")
         // Return the list of previous workout sets
         return toReturn
     }
+
 }

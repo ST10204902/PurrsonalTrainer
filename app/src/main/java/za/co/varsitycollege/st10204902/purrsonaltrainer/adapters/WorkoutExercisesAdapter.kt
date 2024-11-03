@@ -19,6 +19,7 @@ import za.co.varsitycollege.st10204902.purrsonaltrainer.services.ExerciseService
 
 class WorkoutExercisesAdapter(
     private val exercises: List<WorkoutExercise>,
+    private val WorkoutID: String,
     private val context: Context
 ) : RecyclerView.Adapter<WorkoutExercisesAdapter.WorkoutExercisesViewHolder>()
 {
@@ -52,7 +53,7 @@ class WorkoutExercisesAdapter(
        val workoutWorker = WorkoutWorker(UserManager.user!!.userWorkouts)
         // Binding routineSets
         val setsList = exercise.sets.values.toMutableList()
-        val previousWeightList = workoutWorker.getPreviousWorkoutExercises(exercise.exerciseID, setsList)
+        val previousWeightList = workoutWorker.getPreviousWorkoutExercises(exercise.exerciseID,WorkoutID, setsList)
         val adapter = WorkoutSetsAdapter(setsList,previousWeightList, context)
         holder.workoutSets.adapter = adapter
         holder.workoutSets.layoutManager = LinearLayoutManager(context)
