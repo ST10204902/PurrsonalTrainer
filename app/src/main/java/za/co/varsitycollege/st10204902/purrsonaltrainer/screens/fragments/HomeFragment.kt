@@ -194,7 +194,7 @@ private val requiredPermissions = arrayOf(
             val dateFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
             val grouped = user.userWorkouts.values.groupBy { dateFormat.format(it.date) }
                 .map { (month, workouts) ->
-                    MonthWorkout(month, workouts.sortedBy { it.date })
+                    MonthWorkout(month, workouts.sortedByDescending { it.date })
                 }.sortedByDescending {
                     // To sort months in descending order, parse the month string back to Date
                     SimpleDateFormat("MMMM yyyy", Locale.getDefault()).parse(it.month) ?: Date()
