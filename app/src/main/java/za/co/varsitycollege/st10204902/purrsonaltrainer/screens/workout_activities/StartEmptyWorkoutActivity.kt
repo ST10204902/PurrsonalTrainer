@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -215,6 +216,17 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
             detailsComponent.workoutStartTime.text = formatWorkoutTime(startDate)
             detailsComponent.workoutEndTime.text = endDate
             detailsComponent.workoutBodyWeight.setText(bodyWeight)
+            detailsComponent.workoutBodyWeight.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    detailsComponent.workoutBodyWeight.text.clear()  // Clear the text when the TextView is selected
+                }
+                else
+                {
+                    if (detailsComponent.workoutBodyWeight.text.isEmpty()) {
+                        detailsComponent.workoutBodyWeight.text = Editable.Factory.getInstance().newEditable("--")
+                    }
+                }
+            }
         }
     }
 

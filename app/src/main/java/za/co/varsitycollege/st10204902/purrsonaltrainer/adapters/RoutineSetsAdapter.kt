@@ -79,6 +79,17 @@ class RoutineSetsAdapter(
 
         holder.previousWeight.text = previousWeight
 
+        holder.weightInput.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                holder.weightInput.text.clear()  // Clear the text when the TextView is selected
+            }
+            else
+            {
+                val weight = holder.weightInput.text.toString().toIntOrNull() ?: 0
+                set.weight = weight
+            }
+        }
+
 
         holder.weightInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -96,6 +107,17 @@ class RoutineSetsAdapter(
                 // Optional: Do something while the text is being changed
             }
         })
+
+        holder.repsInput.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                holder.repsInput.text.clear()  // Clear the text when the TextView is selected
+            }
+            else
+            {
+                val reps = holder.repsInput.text.toString().toIntOrNull() ?: 0
+                set.reps = reps
+            }
+        }
 
         holder.repsInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
