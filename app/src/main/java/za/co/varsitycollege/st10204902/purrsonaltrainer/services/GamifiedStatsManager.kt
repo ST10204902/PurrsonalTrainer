@@ -22,7 +22,7 @@ class GamifiedStatsManager(private val context: Context) {
     val maxLevel = 69
 
     // Base XP required for level 1
-    private val baseXPRequirement = 1000
+    private val baseXPRequirement = 7000
 
     // XP scaling factor per level (adjust this to change leveling curve)
     private val xpScalingFactor = 1.1
@@ -222,7 +222,9 @@ class GamifiedStatsManager(private val context: Context) {
         val xpRequirements = calculateXPRequirements()
 
         // Level up while current XP exceeds XP required for the next level
-        while (newLevel < maxLevel && newExperiencePoints >= xpRequirements.getOrNull(newLevel - 1) ?: Int.MAX_VALUE) {
+        while (newLevel < maxLevel && newExperiencePoints >= (xpRequirements.getOrNull(newLevel - 1)
+                ?: Int.MAX_VALUE)
+        ) {
             val xpNeeded = xpRequirements.getOrNull(newLevel - 1) ?: 0
             newExperiencePoints -= xpNeeded
             newLevel++
