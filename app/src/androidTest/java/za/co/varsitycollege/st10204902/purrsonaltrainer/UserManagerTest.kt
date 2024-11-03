@@ -42,6 +42,7 @@ class UserManagerTest {
             milkCoins = "0",
             experiencePoints = 0,
             backgroundURI = "test background uri",
+            level = 1,
             catURI = "test cat uri",
             userRoutines = emptyMap(),
             userWorkouts = emptyMap(),
@@ -156,15 +157,15 @@ class UserManagerTest {
 
     @Test
     fun addUserRoutine_withValidRoutine_addsRoutine() = runBlocking {
-
+        val routineBuilder = RoutineBuilder()
         val routineName = "routineName"
         val routineDescription = "routineDescription"
         val routineExercises = mutableMapOf<String, WorkoutExercise>()
-        RoutineBuilder.name = routineName
-        RoutineBuilder.description = routineDescription
-        RoutineBuilder.exercises = routineExercises
-        RoutineBuilder.color = "color"
-        val userRoutine = RoutineBuilder.buildRoutine()
+        routineBuilder.name = routineName
+        routineBuilder.description = routineDescription
+        routineBuilder.exercises = routineExercises
+        routineBuilder.color = "color"
+        val userRoutine = routineBuilder.buildRoutine()
         UserManager.addUserRoutine(userRoutine)
         val updatedUser = UserManager.user
         assertNotNull("User should not be null", updatedUser)

@@ -24,13 +24,15 @@ import za.co.varsitycollege.st10204902.purrsonaltrainer.screens.HomeActivity
 import za.co.varsitycollege.st10204902.purrsonaltrainer.screens.fragments.ChooseCategoryFragment
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.ExerciseAddedListener
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.RoutineBuilder
-import za.co.varsitycollege.st10204902.purrsonaltrainer.services.SetBuilder
+import za.co.varsitycollege.st10204902.purrsonaltrainer.services.RoutineBuilderProvider
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.SlideUpPopup
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.navigateTo
 import java.util.Date
 
-class CreateRoutineActivity : AppCompatActivity(), ExerciseAddedListener, OnSetsUpdatedListener {
+class CreateRoutineActivity : AppCompatActivity(), ExerciseAddedListener, OnSetsUpdatedListener,
+    RoutineBuilderProvider {
     private lateinit var binding: ActivityCreateRoutineBinding
+    override val routineBuilder = RoutineBuilder()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,9 +47,8 @@ class CreateRoutineActivity : AppCompatActivity(), ExerciseAddedListener, OnSets
         val routineColor = binding.colorPickerSpinner
         val txtRoutineDescription = binding.notes
 
-
         // Subscribing this activity to the ExerciseAddedListener for the RoutineBuilder
-        RoutineBuilder.addExerciseAddedListener(this)
+        routineBuilder.addExerciseAddedListener(this)
         // Check for existing exercises
         this.onExerciseAdded()
 
@@ -55,12 +56,12 @@ class CreateRoutineActivity : AppCompatActivity(), ExerciseAddedListener, OnSets
 
             val routineName = txtRoutineName.text.toString()
 
-            RoutineBuilder.setRoutineName(routineName)
-            RoutineBuilder.setRoutineColor(routineColor.selectedItem.toString())
-            RoutineBuilder.setRoutineDescription(txtRoutineDescription.text.toString())
+            routineBuilder.setRoutineName(routineName)
+            routineBuilder.setRoutineColor(routineColor.selectedItem.toString())
+            routineBuilder.setRoutineDescription(txtRoutineDescription.text.toString())
 
-            if (RoutineBuilder.hasAnExercise()) {
-                UserManager.addUserRoutine(RoutineBuilder.buildRoutine())
+            if (routineBuilder.hasAnExercise()) {
+                UserManager.addUserRoutine(routineBuilder.buildRoutine())
             } else {
                 // if the user has not added any exercises then show a message to the user
                 Log.d("CreateRoutineActivity", "No exercises added")
@@ -147,10 +148,10 @@ class CreateRoutineActivity : AppCompatActivity(), ExerciseAddedListener, OnSets
      * Code run when an exercise has been added to the RoutineBuilder
      */
     override fun onExerciseAdded() {
-        if (RoutineBuilder.hasAnExercise()) {
+        if (routineBuilder.hasAnExercise()) {
             try {
                 val recyclerView = binding.routineAddedExercises
-                val userExercises = RoutineBuilder.exercises.values.toMutableList()
+                val userExercises = routineBuilder.exercises.values.toMutableList()
                 val adapter = CreateRoutineExercisesAdapter(userExercises, this)
                 adapter.addSetUpdatedListener(this)
                 recyclerView.adapter = adapter
@@ -167,7 +168,7 @@ class CreateRoutineActivity : AppCompatActivity(), ExerciseAddedListener, OnSets
             setsMap[it.workoutSetID] = it
         }
 
-        val oldExercise = RoutineBuilder.exercises[exerciseID]
+        val oldExercise = routineBuilder.exercises[exerciseID]
         val newExercise = WorkoutExercise(
             exerciseID,
             oldExercise?.exerciseName!!,
@@ -177,6 +178,6 @@ class CreateRoutineActivity : AppCompatActivity(), ExerciseAddedListener, OnSets
             oldExercise.notes,
             oldExercise.measurementType
         )
-        RoutineBuilder.addWorkoutExercise(newExercise)
+        routineBuilder.addWorkoutExercise(newExercise)
     }
 }
