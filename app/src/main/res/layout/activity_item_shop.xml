@@ -1,163 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- activity_item_shop.xml -->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".screens.shop.ItemShopActivity">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/item_shop_backdrop"
-        android:scaleType="centerCrop"/>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingTop="20dp"
-            android:paddingBottom="10dp">
-
-            <include layout="@layout/component_milkcoins_amount"
-                android:id="@+id/background_shop_coins"
-                android:layout_width="140dp"
-                android:layout_height="120dp"
-                android:layout_marginTop="-10dp"
-                android:layout_marginRight="-7dp"
-                android:layout_gravity="end"/>
-
-            <za.co.varsitycollege.st10204902.purrsonaltrainer.frontend_logic.GradientTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-40dp"
-                android:text="Paw-Some"
-                android:fontFamily="@font/knicknack_black"
-                android:textSize="50sp"
-                app:startColor="@color/shop_header_color"
-                app:endColor="@color/shop_header_color"
-                app:strokeColor="@color/default_stroke_color"
-                app:strokeWidth="15dp"
-                android:elevation="2dp"/>
-
-            <za.co.varsitycollege.st10204902.purrsonaltrainer.frontend_logic.GradientTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-60dp"
-                android:text="Gear"
-                android:fontFamily="@font/knicknack_black"
-                android:textSize="50sp"
-                app:startColor="@color/routine_end_color"
-                app:endColor="@color/routine_end_color"
-                app:strokeColor="@color/default_stroke_color"
-                app:strokeWidth="15dp" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:layout_height="500dp"
-                    android:layout_width="match_parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:src="@drawable/shop_item_shelf"
-                    android:scaleType="fitCenter"
-                    android:layout_marginBottom="90dp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <include layout="@layout/component_shop_item"
-                        android:id="@+id/shop_item_1"
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                    <include layout="@layout/component_shop_item"
-                        android:layout_weight="1"
-                        android:id="@+id/shop_item_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_marginTop="-200dp"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:layout_height="500dp"
-                    android:layout_width="match_parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:src="@drawable/shop_item_shelf"
-                    android:scaleType="fitCenter"
-                    android:layout_marginBottom="90dp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <include layout="@layout/component_shop_item"
-                        android:id="@+id/shop_item_3"
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                    <include layout="@layout/component_shop_item"
-                        android:layout_weight="1"
-                        android:id="@+id/shop_item_4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_marginTop="-200dp"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:layout_height="500dp"
-                    android:layout_width="match_parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:src="@drawable/shop_item_shelf"
-                    android:scaleType="fitCenter"
-                    android:layout_marginBottom="90dp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <include layout="@layout/component_shop_item"
-                        android:id="@+id/shop_item_5"
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
-    </ScrollView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvItems"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
