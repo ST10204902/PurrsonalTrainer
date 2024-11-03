@@ -3,13 +3,12 @@ package za.co.varsitycollege.st10204902.purrsonaltrainer.services
 import za.co.varsitycollege.st10204902.purrsonaltrainer.backend.UserManager
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.UserWorkout
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.WorkoutExercise
-import za.co.varsitycollege.st10204902.purrsonaltrainer.stores.ItemsStore
 
 /**
  * Class responsible for calculating XP for workouts.
  */
 class WorkoutXPCalculator {
-    val globalItems = ItemsStore.globalItems
+
 
     // Weighting for each muscle group
     private val muscleGroupWeightings = mapOf(
@@ -47,7 +46,7 @@ class WorkoutXPCalculator {
         val currentUser = UserManager.user!!
         var bonusXP = 0
         //switch statement
-        when (currentUser.equipedItem) {
+        when (currentUser.equippedItem) {
             "0" -> {
                 for ((_, exercise) in userWorkout.workoutExercises) {
                     if (exercise.exerciseName.contains("deadlift",true) || exercise.exerciseName.contains("squat",true)  || exercise.exerciseName.contains("Bench Press",true) ) {
@@ -158,7 +157,9 @@ class WorkoutXPCalculator {
         levelGainMilkCoins++
 
         // Level up while current XP exceeds XP required for the next level
-        while (currentLevel < totalLevels && currentXP >= xpRequirements.getOrNull(currentLevel - 1) ?: Int.MAX_VALUE) {
+        while (currentLevel < totalLevels && currentXP >= (xpRequirements.getOrNull(currentLevel - 1)
+                ?: Int.MAX_VALUE)
+        ) {
             currentXP -= xpRequirements.getOrNull(currentLevel - 1) ?: 0
             currentLevel++
             levelGainMilkCoins++
@@ -200,7 +201,7 @@ class WorkoutXPCalculator {
         } else {
             0.0
         }
-println("progressPercentage: $progressPercentage")
+        println("progressPercentage: $progressPercentage")
         // Cap the progress percentage at 1.0
         return minOf(progressPercentage, 1.0)
     }

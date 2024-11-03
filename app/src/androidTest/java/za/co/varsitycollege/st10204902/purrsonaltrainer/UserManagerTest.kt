@@ -39,7 +39,7 @@ class UserManagerTest {
             userID = "",
             name = "Test User",
             catName = "Test Cat",
-            milkCoins = "0",
+            milkCoins = 0,
             experiencePoints = 0,
             backgroundURI = "test background uri",
             level = 1,

@@ -138,9 +138,9 @@ object UserManager {
             experiencePoints = 0,
             backgroundURI = "",
             level = 0,
-            equipedItem = "",
+            equippedItem = "",
             catURI = "",
-            milkCoins = "",
+            milkCoins = 0,
             userRoutines = emptyMap(),
             userWorkouts = emptyMap(),
             userExercises = emptyMap(),
@@ -195,7 +195,7 @@ object UserManager {
     fun updateEquipedItem(newItem: String) {
         if (userIsLoggedIn()) {
             _userFlow.update { user ->
-                user?.copy(equipedItem = newItem)
+                user?.copy(equippedItem = newItem)
             }
         } else {
             Log.e("UserManager.updateEquipedItem", "User is not logged in")
@@ -260,7 +260,7 @@ object UserManager {
      * Updates the user's milk coins
      * @param newCoins The new milk coins to update the user with
      */
-    fun updateMilkCoins(newCoins: String) {
+    fun updateMilkCoins(newCoins: Int) {
         if (userIsLoggedIn()) {
             _userFlow.update { user ->
                 user?.copy(milkCoins = newCoins)
