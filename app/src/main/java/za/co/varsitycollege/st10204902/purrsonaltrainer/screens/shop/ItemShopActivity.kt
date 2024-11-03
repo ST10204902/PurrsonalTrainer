@@ -40,6 +40,11 @@ class ItemShopActivity : AppCompatActivity()
         background4.shopItemImage.setImageResource(R.drawable.item_jasper)
         background4.milkcoinsComponent.milkcoinsAmount.reInitialiseComponent(R.color.item_jasper_start, R.color.item_jasper_end)
 
+        val background5 = binding.shopItem5
+        background5.shopItemName.text = "Anneme's Plumbob"
+        background5.shopItemImage.setImageResource(R.drawable.item_anneme)
+        background5.milkcoinsComponent.milkcoinsAmount.reInitialiseComponent(R.color.item_anneme_start, R.color.item_anneme_end)
+
         // Setup Coins
         binding.backgroundShopCoins.milkcoinsAmount.reInitialiseComponent(R.color.background_balance_start, R.color.background_balance_end)
     }
