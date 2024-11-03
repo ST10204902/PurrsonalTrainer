@@ -49,7 +49,7 @@ class CatSettingsActivity : AppCompatActivity() {
     {
         // CatAvatarSetup
         swipableSelector = binding.catSettingsCatSwipeSelector
-        swipableSelector.setItems(GetCatAvatars()) {}
+        swipableSelector.setItems(GetCatAvatars(), 150) {}
 
         // Get the fur pattern currently chosen by the user
         try

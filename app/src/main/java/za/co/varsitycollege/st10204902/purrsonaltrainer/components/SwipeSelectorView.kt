@@ -24,8 +24,12 @@ class SwipeSelectorView @JvmOverloads constructor(
         viewPager = view.findViewById(R.id.viewPager)
     }
 
-    fun setItems(avatarList: List<Int>, onAvatarSelected: (Int) -> Unit) {
-        adapter = SwipableComponentAdapter(avatarList, onAvatarSelected)
+    fun setItems(
+        avatarList: List<Int>,
+        imageMargin: Int = 0, // Default margin of 0
+        onAvatarSelected: (Int) -> Unit,
+    ) {
+        adapter = SwipableComponentAdapter(avatarList, imageMargin, onAvatarSelected)
         viewPager.adapter = adapter
     }
 

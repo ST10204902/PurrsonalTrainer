@@ -97,7 +97,7 @@ class CatFragment : Fragment() {
         return view
     }
 
-    private fun dpToPx(dp: Float): Int {
+     fun dpToPx(dp: Float): Int {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             dp,
