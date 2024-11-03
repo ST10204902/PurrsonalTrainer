@@ -49,7 +49,7 @@ class UserManagerTest {
             userExercises = emptyMap(),
             userAchievements = emptyMap(),
             userBackgrounds = emptyMap(),
-            userInventory = emptyMap()
+            userInventory = emptyList()
         )
 
         @BeforeClass
@@ -148,7 +148,7 @@ class UserManagerTest {
 
     @Test
     fun updateMilkCoins_withValidCoins_updatesMilkCoins() = runBlocking {
-        val newMilkCoins = "100"
+        val newMilkCoins = 100
         UserManager.updateMilkCoins(newMilkCoins)
         val updatedUser = UserManager.user
         assertNotNull("User should not be null", updatedUser)

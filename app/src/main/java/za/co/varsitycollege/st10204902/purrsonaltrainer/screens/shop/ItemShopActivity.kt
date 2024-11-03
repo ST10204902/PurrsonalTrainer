@@ -123,7 +123,9 @@ class ItemShopActivity : AppCompatActivity() {
                 else {
                     UserManager.updateUserInventory(item)
                     UserManager.updateEquipedItem(item.itemID)
-                    UserManager.updateMilkCoins(-item.cost)
+                    var tempCoins = currentUser.milkCoins
+                    tempCoins -= item.cost
+                    UserManager.updateMilkCoins(tempCoins)
                 }
                 dialog.dismiss()
             }

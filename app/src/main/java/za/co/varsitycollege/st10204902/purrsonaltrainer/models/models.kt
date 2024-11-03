@@ -57,7 +57,7 @@ data class User(
     val userExercises: Map<String, Exercise> = emptyMap(),
     val userAchievements: Map<String, UserAchievement> = emptyMap(),
     val userBackgrounds: Map<String, UserBackground> = emptyMap(),
-    val userInventory: Map<String, Item> = emptyMap(),
+    val userInventory:  List<Item> = emptyList(),
     val customCategories: List<String> = emptyList()
 )
 

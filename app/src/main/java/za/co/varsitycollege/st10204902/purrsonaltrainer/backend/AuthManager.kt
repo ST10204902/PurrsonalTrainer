@@ -94,7 +94,7 @@ class AuthManager(val auth: FirebaseAuth = FirebaseAuth.getInstance()) {
                             emptyMap(),
                             emptyMap(),
                             emptyMap(),
-                            emptyMap()
+                            emptyList()
                         )
 
                         // Add the user to the database and wait for the result

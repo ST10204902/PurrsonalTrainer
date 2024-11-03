@@ -145,7 +145,7 @@ object UserManager {
             userWorkouts = emptyMap(),
             userExercises = emptyMap(),
             userAchievements = emptyMap(),
-            userInventory = emptyMap(),
+            userInventory = emptyList(),
             userBackgrounds = emptyMap()
         )
 
@@ -182,7 +182,8 @@ object UserManager {
         if (userIsLoggedIn()) {
             _userFlow.update { user ->
                 user?.let {
-                    val updatedInventory = user.userInventory + (newItem.itemID to newItem)
+                    val updatedInventory = user.userInventory.toMutableList()
+                    updatedInventory.add(newItem)
                     it.copy(userInventory = updatedInventory)
                 }
             }
@@ -753,49 +754,13 @@ object UserManager {
         if (userIsLoggedIn()) {
             _userFlow.update { user ->
                 user?.let {
-                    val updatedInventory = user.userInventory + (newItem.itemID to newItem)
+                    val updatedInventory = user.userInventory.toMutableList()
+                    updatedInventory.add(newItem)
                     it.copy(userInventory = updatedInventory)
                 }
             }
         } else {
             Log.e("UserManager.addItemToInventory", "User is not logged in")
-        }
-    }
-
-    /**
-     * Removes an item from the user's inventory
-     * @param itemID The ID of the item to remove
-     */
-    fun removeItemFromInventory(itemID: String) {
-        if (userIsLoggedIn()) {
-            _userFlow.update { user ->
-                val inventory = user?.userInventory
-                if (inventory.isNullOrEmpty() || !inventory.containsKey(itemID)) {
-                    Log.w("UserManager", "User Inventory is empty or the item doesn't exist")
-                    return@update user // Return the user unchanged
-                }
-                user.let {
-                    val updatedInventory = user.userInventory - (itemID)
-                    it.copy(userInventory = updatedInventory)
-                }
-            }
-        } else {
-            Log.e("UserManager.removeItemFromInventory", "User is not logged in")
-        }
-    }
-
-    /**
-     * Updates an item in the user's inventory
-     * @param itemID The ID of the item to update
-     * @param updatedItem The updated item to replace the old one
-     */
-    fun updateUserItem(itemID: String, updatedItem: Item) {
-        if (userIsLoggedIn()) {
-            val newItem = updatedItem.copy(itemID = itemID)
-            removeItemFromInventory(itemID)
-            addItemToInventory(newItem)
-        } else {
-            Log.e("UserManager.updateUserItem", "User is not logged in")
         }
     }
 
