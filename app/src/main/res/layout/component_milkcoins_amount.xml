@@ -3,15 +3,17 @@
     android:orientation="horizontal"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center_horizontal">
 
     <ImageView
         android:layout_width="65dp"
         android:layout_height="65dp"
-        android:layout_marginTop="22dp"
-        android:src="@drawable/milkcoin"/>
+        android:src="@drawable/milkcoin"
+        android:layout_gravity="center_vertical"/>
 
     <za.co.varsitycollege.st10204902.purrsonaltrainer.frontend_logic.GradientTextView
+        android:layout_marginTop="10dp"
         android:id="@+id/milkcoins_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,6 +24,7 @@
         app:startColor="@color/soft_lime_green"
         app:endColor="@color/olive_green"
         app:strokeColor="@color/default_stroke_color"
-        app:strokeWidth="15dp" />
+        app:strokeWidth="15dp"
+        android:layout_gravity="center_vertical"/>
 
 </LinearLayout>
