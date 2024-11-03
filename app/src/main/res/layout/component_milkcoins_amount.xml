@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="22dp"
+        android:src="@drawable/milkcoin"/>
+
+    <za.co.varsitycollege.st10204902.purrsonaltrainer.frontend_logic.GradientTextView
+        android:id="@+id/milkcoins_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-22dp"
+        android:text="25"
+        android:fontFamily="@font/knicknack_black"
+        android:textSize="55sp"
+        app:startColor="@color/soft_lime_green"
+        app:endColor="@color/olive_green"
+        app:strokeColor="@color/default_stroke_color"
+        app:strokeWidth="15dp" />
+
+</LinearLayout>

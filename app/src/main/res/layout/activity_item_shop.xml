@@ -7,10 +7,10 @@
     android:layout_height="match_parent"
     tools:context=".screens.shop.ItemShopActivity">
 
-    <TextView
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="item shop"
-        android:gravity="center"/>
+        android:src="@drawable/item_shop_backdrop"
+        android:scaleType="centerCrop"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
