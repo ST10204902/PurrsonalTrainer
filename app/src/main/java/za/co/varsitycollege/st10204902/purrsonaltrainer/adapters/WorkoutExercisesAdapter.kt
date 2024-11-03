@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import za.co.varsitycollege.st10204902.purrsonaltrainer.R
 import za.co.varsitycollege.st10204902.purrsonaltrainer.adapters.CreateRoutineExercisesAdapter.CreateRoutineExercisesViewHolder
+import za.co.varsitycollege.st10204902.purrsonaltrainer.backend.UserManager
+import za.co.varsitycollege.st10204902.purrsonaltrainer.backend.WorkoutWorker
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.WorkoutExercise
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.WorkoutSet
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.ExerciseService
@@ -47,10 +49,10 @@ class WorkoutExercisesAdapter(
         // Binding initial notes to exercise notes
         holder.notes.setText(exercise.notes)
 
-        val exerciseService = ExerciseService(context)
+       val workoutWorker = WorkoutWorker(UserManager.user!!.userWorkouts)
         // Binding routineSets
         val setsList = exercise.sets.values.toMutableList()
-        val previousWeightList = exerciseService.getPreviousWorkoutExercises(exercise.exerciseID, setsList)
+        val previousWeightList = workoutWorker.getPreviousWorkoutExercises(exercise.exerciseID, setsList)
         val adapter = WorkoutSetsAdapter(setsList,previousWeightList, context)
         holder.workoutSets.adapter = adapter
         holder.workoutSets.layoutManager = LinearLayoutManager(context)
