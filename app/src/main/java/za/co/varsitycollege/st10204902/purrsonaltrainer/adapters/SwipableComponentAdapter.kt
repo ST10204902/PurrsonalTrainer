@@ -3,12 +3,14 @@ package za.co.varsitycollege.st10204902.purrsonaltrainer.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import za.co.varsitycollege.st10204902.purrsonaltrainer.R
 
 class SwipableComponentAdapter(
     private val itemList: List<Int>, // Assuming using drawable resource IDs
+    private val imageMargin: Int = 0,
     private val onItemPressed: (Int) -> Unit // Callback for when an avatar is selected
 ) : RecyclerView.Adapter<SwipableComponentAdapter.AvatarViewHolder>() {
 
@@ -17,6 +19,12 @@ class SwipableComponentAdapter(
 
         fun bind(avatarResId: Int) {
             avatarImageView.setImageResource(avatarResId)
+
+            // Apply Horizontal Margin
+            val layoutParams = avatarImageView.layoutParams as FrameLayout.LayoutParams
+            layoutParams.setMargins(imageMargin, 0, imageMargin, 0)
+            avatarImageView.layoutParams = layoutParams
+
             itemView.setOnClickListener {
                 onItemPressed(avatarResId)
             }

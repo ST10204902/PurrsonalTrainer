@@ -7,17 +7,9 @@
     tools:context=".screens.shop.ShopChoiceActivity"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/items_shop_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="items"
-        android:layout_marginTop="100dp"/>
-
-    <Button
-        android:id="@+id/background_shop_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="backgrounds"/>
+    <za.co.varsitycollege.st10204902.purrsonaltrainer.components.SwipeSelectorView
+        android:id="@+id/shop_choice_swipable"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </LinearLayout>
