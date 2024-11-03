@@ -80,7 +80,7 @@ fun GetCatStage(): Int
         level < 30 -> 3
         level < 40 -> 4
         level < 50 -> 5
-        level < 60 -> 6
+        level >= 60 -> 6
         else -> 1
     }
 }

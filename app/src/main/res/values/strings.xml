@@ -58,4 +58,23 @@
     <string name="colour">Colour</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="password_text_view">password text view</string>
+
+    <string name="muscle_group_lower_back">lower back</string>
+    <string name="muscle_group_biceps">biceps</string>
+    <string name="muscle_group_traps">traps</string>
+    <string name="muscle_group_adductors">adductors</string>
+    <string name="muscle_group_abs">abs</string>
+    <string name="muscle_group_middle_back">middle back</string>
+    <string name="muscle_group_glutes">glutes</string>
+    <string name="muscle_group_neck">neck</string>
+    <string name="muscle_group_calves">calves</string>
+    <string name="muscle_group_shoulders">shoulders</string>
+    <string name="muscle_group_triceps">triceps</string>
+    <string name="muscle_group_forearms">forearms</string>
+    <string name="muscle_group_abductors">abductors</string>
+    <string name="muscle_group_hamstrings">hamstrings</string>
+    <string name="muscle_group_quads">quads</string>
+    <string name="muscle_group_lats">lats</string>
+    <string name="muscle_group_chest">chest</string>
+
 </resources>

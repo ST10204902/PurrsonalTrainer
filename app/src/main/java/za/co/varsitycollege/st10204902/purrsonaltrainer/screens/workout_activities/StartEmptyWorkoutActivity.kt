@@ -11,13 +11,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import za.co.varsitycollege.st10204902.purrsonaltrainer.R
-import za.co.varsitycollege.st10204902.purrsonaltrainer.adapters.CreateRoutineExercisesAdapter
 import za.co.varsitycollege.st10204902.purrsonaltrainer.adapters.OnSetsUpdatedListener
 import za.co.varsitycollege.st10204902.purrsonaltrainer.adapters.WorkoutExercisesAdapter
 import za.co.varsitycollege.st10204902.purrsonaltrainer.backend.UserManager
 import za.co.varsitycollege.st10204902.purrsonaltrainer.databinding.ActivityStartEmptyWorkoutBinding
-import za.co.varsitycollege.st10204902.purrsonaltrainer.models.User
-import za.co.varsitycollege.st10204902.purrsonaltrainer.models.UserRoutine
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.UserWorkout
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.WorkoutExercise
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.WorkoutSet
@@ -30,8 +27,9 @@ import za.co.varsitycollege.st10204902.purrsonaltrainer.services.RoutineBuilder
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.RoutineBuilderProvider
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.RoutineConverter
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.SlideUpPopup
-import za.co.varsitycollege.st10204902.purrsonaltrainer.services.WorkoutXPCalculator
+import za.co.varsitycollege.st10204902.purrsonaltrainer.services.GamifiedStatsManager
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.navigateTo
+import za.co.varsitycollege.st10204902.purrsonaltrainer.stores.ItemsStore
 import java.text.SimpleDateFormat
 import java.time.Duration
 import java.time.LocalDateTime
@@ -49,7 +47,9 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
     private lateinit var binding: ActivityStartEmptyWorkoutBinding
     private lateinit var exercisesRecyclerView: RecyclerView
     override val routineBuilder = RoutineBuilder()
+    private val calculator = GamifiedStatsManager(this)
     var boundWorkout: UserWorkout? = null
+    var currentUser = UserManager.user!!
 
     /**
      * Called when the activity is starting.
@@ -96,10 +96,18 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
             Handler(Looper.getMainLooper()).postDelayed({
                 binding.doneButton.background = binding.doneButton.background
             }, 400)
-            val calculator = WorkoutXPCalculator()
-            val xp = calculator.calculateXP(workout)
-            calculator.updateUserLevelAndXP(xp)
-            UserManager.resetWorkoutInProgress()
+
+
+            if (UserManager.user != null)
+            {
+                val index = UserManager.user!!.equippedItem
+                val equippedItem = if (index != "") ItemsStore.globalItems[UserManager.user!!.equippedItem.toInt()] else null
+
+                calculator.updateUserStatsAfterWorkout(currentUser,workout, equippedItem)
+                UserManager.resetWorkoutInProgress()
+            }
+            //TODO: change equippedItem in the database an model to be a int
+
 
             // Navigating back to home activity
             navigateTo(this, HomeActivity::class.java, null)

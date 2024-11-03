@@ -13,6 +13,8 @@ import za.co.varsitycollege.st10204902.purrsonaltrainer.databinding.ActivityItem
 import za.co.varsitycollege.st10204902.purrsonaltrainer.databinding.ComponentItemPopupBinding
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.Item
 import za.co.varsitycollege.st10204902.purrsonaltrainer.stores.ItemsStore
+import android.util.Log
+import za.co.varsitycollege.st10204902.purrsonaltrainer.backend.UserManager
 
 class ItemShopActivity : AppCompatActivity() {
     private lateinit var binding: ActivityItemShopBinding
@@ -111,7 +113,20 @@ class ItemShopActivity : AppCompatActivity() {
             itemImage.setImageResource(resourceId)
 
             btnPurchase.setOnClickListener {
+                val currentUser = UserManager.user!!
                 // Implement purchase logic here
+                if (currentUser.milkCoins < item.cost) {
+                    // Show toast
+                    Log.e("ItemShopActivity", "Not enough milk coins ADD USER FEEDBACK")
+                    return@setOnClickListener
+                }
+                else {
+                    UserManager.updateUserInventory(item)
+                    UserManager.updateEquipedItem(item.itemID)
+                    var tempCoins = currentUser.milkCoins
+                    tempCoins -= item.cost
+                    UserManager.updateMilkCoins(tempCoins)
+                }
                 dialog.dismiss()
             }
         }
