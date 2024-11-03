@@ -46,4 +46,21 @@
     <string name="analysis">" Ontleding"</string>
     <string name="records">Rekords</string>
     <string name="placeholder_rm">0 MH</string>
+    <string name="muscle_group_lower_back">laerug</string>
+    <string name="muscle_group_biceps">biseps</string>
+    <string name="muscle_group_traps">trape</string>
+    <string name="muscle_group_adductors">adduktore</string>
+    <string name="muscle_group_abs">maagspiere</string>
+    <string name="muscle_group_middle_back">middelrug</string>
+    <string name="muscle_group_glutes">gluteus</string>
+    <string name="muscle_group_neck">nek</string>
+    <string name="muscle_group_calves">kalfspiere</string>
+    <string name="muscle_group_shoulders">skouers</string>
+    <string name="muscle_group_triceps">triseps</string>
+    <string name="muscle_group_forearms">onderarms</string>
+    <string name="muscle_group_abductors">abduktore</string>
+    <string name="muscle_group_hamstrings">hamstrings</string>
+    <string name="muscle_group_quads">kwadriseps</string>
+    <string name="muscle_group_lats">lats</string>
+    <string name="muscle_group_chest">bors</string>
 </resources>

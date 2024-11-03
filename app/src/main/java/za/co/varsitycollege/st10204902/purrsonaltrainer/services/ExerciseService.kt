@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import za.co.varsitycollege.st10204902.purrsonaltrainer.R
 import za.co.varsitycollege.st10204902.purrsonaltrainer.backend.CreateID
 import za.co.varsitycollege.st10204902.purrsonaltrainer.backend.UserManager
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.*
@@ -12,47 +13,7 @@ import java.util.Date
 import java.util.Locale
 
 class ExerciseService(private val context: Context) {
-    companion object {
-        val defaultCategories: List<String> = if (Locale.getDefault().language == "af") {
-            listOf(
-                "adduktore",
-                "middelrug",
-                "kalfspiere",
-                "gluteus",
-                "hamstrings",
-                "lats",
-                "triseps",
-                "bors",
-                "rug",
-                "maagspiere",
-                "skouers",
-                "biseps",
-                "laerug",
-                "kwadriseps"
-            )
-        } else {
-            listOf(
-                "lower back",
-                "biceps",
-                "traps",
-                "adductors",
-                "abs",
-                "middle back",
-                "glutes",
-                "neck",
-                "calves",
-                "shoulders",
-                "triceps",
-                "forearms",
-                "abductors",
-                "hamstrings",
-                "quads",
-                "lats",
-                "chest"
-            )
-        }
-    }
-
+    //-----------------------------------------------------------//
     //                          PROPERTIES                       //
     //-----------------------------------------------------------//
 
@@ -64,7 +25,29 @@ class ExerciseService(private val context: Context) {
     /**
      * List of all default exercise categories
      */
-    val defaultCategories: List<String> = Companion.defaultCategories
+    val defaultCategories: List<String> = getMuscleGroups()
+
+    private fun getMuscleGroups(): List<String> {
+        return listOf(
+            context.getString(R.string.muscle_group_lower_back),
+            context.getString(R.string.muscle_group_biceps),
+            context.getString(R.string.muscle_group_traps),
+            context.getString(R.string.muscle_group_adductors),
+            context.getString(R.string.muscle_group_abs),
+            context.getString(R.string.muscle_group_middle_back),
+            context.getString(R.string.muscle_group_glutes),
+            context.getString(R.string.muscle_group_neck),
+            context.getString(R.string.muscle_group_calves),
+            context.getString(R.string.muscle_group_shoulders),
+            context.getString(R.string.muscle_group_triceps),
+            context.getString(R.string.muscle_group_forearms),
+            context.getString(R.string.muscle_group_abductors),
+            context.getString(R.string.muscle_group_hamstrings),
+            context.getString(R.string.muscle_group_quads),
+            context.getString(R.string.muscle_group_lats),
+            context.getString(R.string.muscle_group_chest)
+        )
+    }
     //-----------------------------------------------------------//
     //                          METHODS                          //
     //-----------------------------------------------------------//

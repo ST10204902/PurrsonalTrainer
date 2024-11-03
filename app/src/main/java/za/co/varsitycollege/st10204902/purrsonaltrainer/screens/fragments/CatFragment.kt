@@ -19,7 +19,7 @@ import za.co.varsitycollege.st10204902.purrsonaltrainer.frontend_logic.GradientT
 import za.co.varsitycollege.st10204902.purrsonaltrainer.screens.SettingsActivity
 import za.co.varsitycollege.st10204902.purrsonaltrainer.screens.shop.ShopChoiceActivity
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.GetCatDrawableId
-import za.co.varsitycollege.st10204902.purrsonaltrainer.services.WorkoutXPCalculator
+import za.co.varsitycollege.st10204902.purrsonaltrainer.services.GamifiedStatsManager
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.navigateTo
 
 /**
@@ -46,7 +46,8 @@ class CatFragment : Fragment() {
         // Setting cat level
         if (UserManager.user != null)
         {
-            level.text = UserManager.user!!.level.toString()
+            val currentUser = UserManager.user!!
+            level.text = currentUser.level.toString()
 
             progressbarContainer.post {
                 val containerWidth = progressBarContent.width
@@ -54,8 +55,8 @@ class CatFragment : Fragment() {
                 val availableWidth = containerWidth - endCapWidthPx
 
                 // Get progress percentage (value between 0 and 1)
-                val calculator = WorkoutXPCalculator()
-                val progressPercentage = calculator.getLevelPercentageComplete() // E.g., 0.75 for 75%
+                val calculator = GamifiedStatsManager(requireContext())
+                val progressPercentage = calculator.getLevelPercentageComplete(currentUser) // E.g., 0.75 for 75%
 
                 val newWidth = (availableWidth * progressPercentage).toInt()
 
