@@ -50,8 +50,8 @@ class WorkoutXPCalculator {
         }
         val currentUser = UserManager.user!!
         var bonusXP = 0
-        Log.d(TAG, "Calculating item bonus XP for equipped item: ${currentUser.equipedItem}")
-        when (currentUser.equipedItem) {
+        Log.d(TAG, "Calculating item bonus XP for equipped item: ${currentUser.equippedItem}")
+        when (currentUser.equippedItem) {
             "0" -> {
                 for ((_, exercise) in userWorkout.workoutExercises) {
                     if (exercise.exerciseName.contains("deadlift", true) || exercise.exerciseName.contains("squat", true) || exercise.exerciseName.contains("Bench Press", true)) {
