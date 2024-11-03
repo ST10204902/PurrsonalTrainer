@@ -84,7 +84,7 @@ class AuthManager(val auth: FirebaseAuth = FirebaseAuth.getInstance()) {
                             "",
                             "",
                             0,
-                            0,
+                            1,
                             "",
                             "",
                             "",
