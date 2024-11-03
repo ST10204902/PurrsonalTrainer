@@ -10,6 +10,7 @@ import za.co.varsitycollege.st10204902.purrsonaltrainer.models.UserWorkout
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.WorkoutExercise
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.WorkoutSet
 import java.util.Calendar
+import kotlin.math.pow
 
 
 class GamifiedStatsManager(private val context: Context) {
@@ -65,7 +66,7 @@ class GamifiedStatsManager(private val context: Context) {
     fun getTotalXPForLevel(level: Int): Int {
         var totalXP = 0.0
         for (i in 1 until level) {
-            totalXP += baseXPRequirement * Math.pow(xpScalingFactor, (i - 1).toDouble())
+            totalXP += baseXPRequirement * xpScalingFactor.pow((i - 1).toDouble())
         }
         return totalXP.toInt()
     }
@@ -175,7 +176,7 @@ class GamifiedStatsManager(private val context: Context) {
                     context.getString(R.string.muscle_group_forearms)
                 )
                 if (exercise.category in affectedGroups) {
-                    effect = 1.2
+                    effect = 1.420
                 }
             }
             "2" -> {
@@ -188,7 +189,7 @@ class GamifiedStatsManager(private val context: Context) {
                 calendar.time = workout.date
                 val workoutHour = calendar.get(Calendar.HOUR_OF_DAY)
                 if (workoutHour in 0..7) {
-                    effect = 1.1
+                    effect = 1.2
                 }
             }
             "4" -> {
@@ -199,7 +200,7 @@ class GamifiedStatsManager(private val context: Context) {
                 Log.d(TAG, "No equipped item or unrecognized item ID.")
             }
         }
-        Log.d(TAG, "Item effect for item ${item?.itemID} on exercise ${exercise.exerciseName}: $effect")
+        Log.d(TAG, "Item effect for item ${item?.itemID} on exercise ${exercise.exerciseName}. the the item ${item?.description}: $effect")
         return effect
     }
 
