@@ -56,7 +56,7 @@ data class User(
     val userWorkouts: Map<String, UserWorkout> = emptyMap(),
     val userExercises: Map<String, Exercise> = emptyMap(),
     val userAchievements: Map<String, UserAchievement> = emptyMap(),
-    val userBackgrounds: Map<String, UserBackground> = emptyMap(),
+    val userBackgrounds: List <UserBackground> = emptyList(),
     val userInventory:  List<Item> = emptyList(),
     val customCategories: List<String> = emptyList()
 )
@@ -133,7 +133,7 @@ data class Exercise(
  */
 @IgnoreExtraProperties
 data class UserBackground(
-    val backgroundID: String = CreateID.GenerateID(),
+    val backgroundID: String = "",
     val name: String = "",
     val cost: Int = 0,
     val backgroundURI: String = ""
