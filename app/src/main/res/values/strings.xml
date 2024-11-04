@@ -77,4 +77,8 @@
     <string name="muscle_group_lats">lats</string>
     <string name="muscle_group_chest">chest</string>
 
+    <string name="owned">owned</string>
+    <string name="equipped">equipped</string>
+    <string name="buy">Buy</string>
+    <string name="equip">equip</string>
 </resources>

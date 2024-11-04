@@ -4,23 +4,27 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import za.co.varsitycollege.st10204902.purrsonaltrainer.R
+import za.co.varsitycollege.st10204902.purrsonaltrainer.backend.UserManager
 import za.co.varsitycollege.st10204902.purrsonaltrainer.databinding.ActivityItemShopBinding
 import za.co.varsitycollege.st10204902.purrsonaltrainer.databinding.ComponentItemPopupBinding
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.Item
 import za.co.varsitycollege.st10204902.purrsonaltrainer.stores.ItemsStore
-import android.util.Log
-import za.co.varsitycollege.st10204902.purrsonaltrainer.backend.UserManager
 
 class ItemShopActivity : AppCompatActivity() {
     private lateinit var binding: ActivityItemShopBinding
+    private val TAG = "ItemShopActivity"
+    private val currentUser get() = UserManager.user  // Updated here
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate: Starting ItemShopActivity")
         enableEdgeToEdge()
         binding = ActivityItemShopBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -31,10 +35,9 @@ class ItemShopActivity : AppCompatActivity() {
     }
 
     private fun setupShopItems() {
-        // Map the global items to the shop item views
+        Log.d(TAG, "setupShopItems: Setting up shop items")
         val items = ItemsStore.globalItems
 
-        // Setup of Items with data from ItemsStore
         setupShopItem(binding.shopItem1, items.getOrNull(0),
             R.drawable.item_nick, R.color.item_nick_start, R.color.item_nick_end)
 
@@ -58,12 +61,15 @@ class ItemShopActivity : AppCompatActivity() {
         startColorRes: Int,
         endColorRes: Int
     ) {
+        Log.d(TAG, "setupShopItem: Setting up item ${item?.name}")
         item?.let {
             shopItemBinding.apply {
                 shopItemName.text = it.name
                 shopItemImage.setImageResource(imageResource)
                 milkcoinsComponent.milkcoinsAmount.reInitialiseComponent(startColorRes, endColorRes)
+                milkcoinsComponent.milkcoinsAmount.text = it.cost.toString()
                 root.setOnClickListener { _ ->
+                    Log.d(TAG, "setupShopItem: Item ${it.name} clicked")
                     showItemDetailsDialog(it)
                 }
             }
@@ -71,10 +77,13 @@ class ItemShopActivity : AppCompatActivity() {
     }
 
     private fun setupClickListeners() {
+        Log.d(TAG, "setupClickListeners: Setting up click listeners")
         // Add any additional click listeners here if needed
     }
 
     private fun setupCoinsDisplay() {
+        Log.d(TAG, "setupCoinsDisplay: Displaying user coins")
+        binding.backgroundShopCoins.milkcoinsAmount.text = currentUser?.milkCoins.toString()
         binding.backgroundShopCoins.milkcoinsAmount.reInitialiseComponent(
             R.color.background_balance_start,
             R.color.background_balance_end
@@ -82,18 +91,17 @@ class ItemShopActivity : AppCompatActivity() {
     }
 
     private fun showItemDetailsDialog(item: Item) {
+        Log.d(TAG, "showItemDetailsDialog: Showing details for item ${item.name}")
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
 
         val dialogBinding = ComponentItemPopupBinding.inflate(layoutInflater)
         dialog.setContentView(dialogBinding.root)
 
-        // Set dialog window size
         dialog.window?.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.WRAP_CONTENT
         )
-
         dialog.window?.apply {
             setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
@@ -102,35 +110,62 @@ class ItemShopActivity : AppCompatActivity() {
         with(dialogBinding) {
             itemName.text = item.name
             itemDescription.text = item.description
-            tvPrice.text = item.cost.toString()
-
-            // Load item image
-            val resourceId = resources.getIdentifier(
-                item.itemURI,
-                "drawable",
-                packageName
-            )
+            val user = currentUser  // Get the latest user data
+            if (user != null) {
+                if (user.userInventory.contains(item)) {
+                    btnPurchase.text = getString(R.string.owned)
+                    // set the button colour to show that the item is owned
+                    btnPurchase.background = resources.getDrawable(R.drawable.svg_purple_bblbtn)
+                    if (user.equippedItem == item.itemID) {
+                        btnPurchase.text = getString(R.string.equipped)
+                        btnPurchase.background = resources.getDrawable(R.drawable.svg_purple_bblbtn_clicked)
+                        Log.d(TAG, "showItemDetailsDialog: Item ${item.name} is equipped")
+                    } else {
+                        btnPurchase.text = getString(R.string.equip)
+                        Log.d(TAG, "showItemDetailsDialog: Item ${item.name} can be equipped")
+                    }
+                } else {
+                    btnPurchase.text = getString(R.string.buy)
+                    if (user.milkCoins < item.cost) {
+                        btnPurchase.isEnabled = false
+                        Log.d(TAG, "showItemDetailsDialog: Not enough coins to buy ${item.name}")
+                    }
+                }
+            }
+            val resourceId = resources.getIdentifier(item.itemURI, "drawable", packageName)
             itemImage.setImageResource(resourceId)
 
             btnPurchase.setOnClickListener {
-                val currentUser = UserManager.user!!
-                // Implement purchase logic here
-                if (currentUser.milkCoins < item.cost) {
-                    // Show toast
-                    Log.e("ItemShopActivity", "Not enough milk coins ADD USER FEEDBACK")
-                    return@setOnClickListener
-                }
-                else {
-                    UserManager.updateUserInventory(item)
-                    UserManager.updateEquipedItem(item.itemID)
-                    var tempCoins = currentUser.milkCoins
-                    tempCoins -= item.cost
-                    UserManager.updateMilkCoins(tempCoins)
-                }
-                dialog.dismiss()
+                Log.d(TAG, "showItemDetailsDialog: btnPurchase clicked for ${item.name}")
+                onPurchaseItem(item, dialog, btnPurchase)
             }
         }
 
         dialog.show()
     }
+
+    private fun onPurchaseItem(item: Item, dialog: Dialog, btnPurchase: Button) {
+        Log.d(TAG, "onPurchaseItem: Attempting to purchase/equip item ${item.name}")
+        if (currentUser != null) {
+            if (currentUser!!.userInventory.contains(item)) {
+                UserManager.updateEquipedItem(item.itemID)
+                btnPurchase.text = getString(R.string.equipped)
+                Log.d(TAG, "onPurchaseItem: Item ${item.name} equipped")
+                setupShopItems()
+                dialog.dismiss()
+            } else if (currentUser!!.milkCoins >= item.cost) {
+                val oldBalance = currentUser!!.milkCoins
+                val newBalance = oldBalance - item.cost
+                UserManager.updateMilkCoins(newBalance)
+                UserManager.updateUserInventory(item)
+                Log.d(TAG, "onPurchaseItem: Item ${item.name} purchased, new balance: $newBalance")
+                setupCoinsDisplay()
+                setupShopItems()
+                dialog.dismiss()
+            } else {
+                Log.d(TAG, "onPurchaseItem: Not enough coins to purchase ${item.name}")
+            }
+        }
+    }
+
 }
