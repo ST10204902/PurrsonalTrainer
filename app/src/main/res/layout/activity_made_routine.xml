@@ -65,7 +65,7 @@
                     android:id="@+id/startWorkoutButton"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/isco_add"
+                    android:src="@drawable/play"
                     android:background="@drawable/btn_topright"
                     android:padding="12dp"
                     android:scaleType="centerInside"
