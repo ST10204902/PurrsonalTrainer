@@ -6,17 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@color/transparent"
-    android:layout_marginBottom="120dp">
+    android:background="@color/transparent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".screens.fragments.RoutinesFragment"
         >
-
-
-
         <LinearLayout
             android:id="@+id/topSection"
             android:layout_width="0dp"
