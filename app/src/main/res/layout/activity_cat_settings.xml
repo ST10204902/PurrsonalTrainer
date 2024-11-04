@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/accountDetails"
-            android:text="Cat Settings"
+            android:text="@string/cat_settings"
             android:fontFamily="@font/knicknack_black"
             android:textSize="40sp"
             app:startColor="@color/pale_sky_blue"
@@ -44,7 +44,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="cat name"
+            android:text="@string/cat_name"
             android:contentDescription="@string/email_text_view"
             android:fontFamily="@font/rounded"
             android:textSize="22sp"

@@ -15,7 +15,7 @@
         android:singleLine="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="Untitled Exercise"
+        android:text="@string/untitled_exercise"
         android:elevation="2dp"
         android:inputType="text"
         android:fontFamily="@font/knicknack_black"

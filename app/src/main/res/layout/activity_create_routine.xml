@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="Routine Name"
+                android:text="@string/routine_name"
                 android:inputType="text"
                 android:fontFamily="@font/knicknack_black"
                 android:textSize="45sp"

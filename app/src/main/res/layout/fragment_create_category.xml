@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:singleLine="false"
-        android:text="Create Category"
+        android:text="@string/create_category"
         android:inputType="text"
         android:fontFamily="@font/knicknack_black"
         android:textSize="34sp"
@@ -24,7 +24,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="name"
+        android:text="@string/name"
         android:fontFamily="@font/rounded"
         android:textSize="25sp"
         android:textFontWeight="600"

@@ -12,6 +12,6 @@
         android:fontFamily="@font/rounded"
         android:textSize="17sp"
         android:textColor="@color/workout_text_color"
-        android:text="4x leg extension"/>
+        android:text="@string/_4x_leg_extension_placeholder"/>
 
 </LinearLayout>

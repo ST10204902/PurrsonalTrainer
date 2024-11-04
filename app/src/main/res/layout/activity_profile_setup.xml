@@ -29,7 +29,7 @@
             android:id="@+id/profile_setup_cat_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cat Name"
+            android:text="@string/cat_name"
             android:fontFamily="@font/knicknack_black"
             android:textSize="60sp"
             app:startColor="@color/soft_lime_green"
@@ -54,7 +54,7 @@
             android:background="@drawable/svg_green_bblbtn"
             android:elevation="5dp"
             android:fontFamily="@font/knicknack_medium"
-            android:text="Next"
+            android:text="@string/next"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="50sp" />

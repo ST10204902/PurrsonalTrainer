@@ -51,7 +51,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Date:"
+                    android:text="@string/date_colon"
                     android:textAllCaps="false"
                     android:fontFamily="@font/rounded"
                     android:textColor="#D4D4D4"
@@ -87,7 +87,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Set Distribution"
+                    android:text="@string/set_distribution"
                     android:fontFamily="@font/knicknack_medium"
                     android:textColor="@color/hint_text"
                     android:textSize="35sp"
@@ -118,7 +118,7 @@
                 android:id="@+id/noDataTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No data available for the selected date range."
+                android:text="@string/no_data_available_for_the_selected_date_range"
                 android:textSize="16sp"
                 android:textColor="@color/black"
                 android:visibility="gone"

@@ -28,7 +28,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Leg Day"
+                android:text="@string/leg_day"
                 android:textColor="@color/workout_title"
                 android:textSize="30sp"
                 android:fontFamily="@font/knicknack_medium" />

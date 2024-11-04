@@ -37,7 +37,7 @@
                 android:layout_marginHorizontal="12dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="Workout Name"
+                android:text="@string/workout_name"
                 android:inputType="text"
                 android:fontFamily="@font/knicknack_black"
                 android:textSize="45sp"

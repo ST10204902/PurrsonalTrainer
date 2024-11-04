@@ -15,7 +15,7 @@
         android:singleLine="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="Exercise Name"
+        android:text="@string/exercise_name"
         android:inputType="text"
         android:fontFamily="@font/knicknack_black"
         android:textSize="35sp"
@@ -29,7 +29,7 @@
         android:id="@+id/categoryLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Category"
+        android:text="@string/category"
         android:fontFamily="@font/rounded"
         android:textColor="@color/hint_text"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,6 +55,6 @@
             android:textColor="@color/hint_text"
             android:textSize="20sp"
             android:gravity="center_vertical"
-            android:text="1.Take a Deep Breath :)"/>
+            android:text="@string/_1_take_a_deep_breath"/>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

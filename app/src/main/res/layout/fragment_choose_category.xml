@@ -75,7 +75,7 @@
                     android:layout_gravity="center_vertical"
                     android:elevation="5dp"
                     android:fontFamily="@font/rounded"
-                    android:text="create category"
+                    android:text="@string/create_category"
                     android:textColor="#CCCACA"
                     android:textFontWeight="600"
                     android:textSize="25sp" />
