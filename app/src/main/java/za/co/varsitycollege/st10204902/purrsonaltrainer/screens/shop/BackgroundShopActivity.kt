@@ -73,7 +73,7 @@ class BackgroundShopActivity : AppCompatActivity() {
 
                 val user = currentUser
                 if (user != null) {
-                    if (user.userBackgrounds.containsKey(it.backgroundID)) {
+                    if (user.userBackgrounds.contains(it)) {
                         milkcoinsComponent.milkcoinsAmount.text = ""
                         milkcoinsComponent.milkcoinsImage.isVisible = false
                     }
@@ -122,7 +122,7 @@ class BackgroundShopActivity : AppCompatActivity() {
             tvPrice.text = background.cost.toString()
             val user = currentUser
             if (user != null) {
-                if (user.userBackgrounds.containsKey(background.backgroundID)) {
+                if (user.userBackgrounds.contains(background)) {
                     btnPurchase.text = getString(R.string.owned)
                     ivCoin.isVisible = false
                     tvPrice.text = ""
@@ -159,7 +159,7 @@ class BackgroundShopActivity : AppCompatActivity() {
         Log.d(TAG, "onPurchaseBackground: Attempting to purchase/equip background ${background.name}")
         val user = currentUser
         if (user != null) {
-            if (user.userBackgrounds.containsKey(background.backgroundID)) {
+            if (user.userBackgrounds.contains(background)) {
                 UserManager.updateBackgroundURI(background.backgroundURI)
                 btnPurchase.text = getString(R.string.equipped)
                 Log.d(TAG, "onPurchaseBackground: Background ${background.name} equipped")

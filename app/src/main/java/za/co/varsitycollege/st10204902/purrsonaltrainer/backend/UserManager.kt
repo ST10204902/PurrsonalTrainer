@@ -146,7 +146,7 @@ object UserManager {
             userExercises = emptyMap(),
             userAchievements = emptyMap(),
             userInventory = emptyList(),
-            userBackgrounds = emptyMap()
+            userBackgrounds = emptyList(),
         )
 
         try {
@@ -776,53 +776,13 @@ object UserManager {
         if (userIsLoggedIn()) {
             _userFlow.update { user ->
                 user?.let {
-                    val updatedBackgrounds =
-                        user.userBackgrounds + (newBackground.backgroundID to newBackground)
+                    var updatedBackgrounds = user.userBackgrounds.toMutableList()
+                    updatedBackgrounds.add(newBackground)
                     it.copy(userBackgrounds = updatedBackgrounds)
                 }
             }
         } else {
             Log.e("UserManager.addUserBackground", "User is not logged in")
-        }
-    }
-
-    /**
-     * Removes a background from the user
-     * @param backgroundID The ID of the background to remove
-     */
-    fun removeUserBackground(backgroundID: String) {
-        if (userIsLoggedIn()) {
-            _userFlow.update { user ->
-                val backgrounds = user?.userBackgrounds
-                if (backgrounds.isNullOrEmpty() || !backgrounds.containsKey(backgroundID)) {
-                    Log.w(
-                        "UserManager",
-                        "User Backgrounds are empty or the background doesn't exist"
-                    )
-                    return@update user // Return the user unchanged
-                }
-                user.let {
-                    val updatedBackgrounds = user.userBackgrounds - (backgroundID)
-                    it.copy(userBackgrounds = updatedBackgrounds)
-                }
-            }
-        } else {
-            Log.e("UserManager.removeUserBackground", "User is not logged in")
-        }
-    }
-
-    /**
-     * Updates a background in the user
-     * @param backgroundID The ID of the background to update
-     * @param updatedBackground The updated background to replace the old one
-     */
-    fun updateUserBackground(backgroundID: String, updatedBackground: UserBackground) {
-        if (userIsLoggedIn()) {
-            val newBackground = updatedBackground.copy(backgroundID = backgroundID)
-            removeUserBackground(backgroundID)
-            addUserBackground(newBackground)
-        } else {
-            Log.e("UserManager.updateUserBackground", "User is not logged in")
         }
     }
 
