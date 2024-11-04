@@ -1,13 +1,15 @@
 # Purrsonal Trainer
 
-Purrsonal Trainer is a pawsome and interactive fitness tracker designed to help users log and manage their gym sessions. With Purrsonal Trainer, users can create custom workout routines, track their purr-formance, and view detailed meow-trics, such as which muscle groups they’ve clawed the most and their rep maxes for each exercise. Future updates will introduce ameowzing gamification, including a fully customizable cat avatar that evolves as the user paws through their workouts. Users will earn “experience points” and “milk coins” for purr-sisting in their fitness routine, which they can use to purr-sonalize and upgrade their feline friend. Upcoming features will include a fitter, fur-midable cat avatar that mirrors the user’s own purr-suit of fitness!
+Purrsonal Trainer is a pawsome and interactive fitness tracker designed to help users log and manage their gym sessions. With Purrsonal Trainer, users can create custom workout routines, track their purr-formance, and view detailed meow-trics, such as which muscle groups they've clawed the most and their rep maxes for each exercise. The app features an ameowzing gamification system, including a fully customizable cat avatar that evolves as the user paws through their workouts. Users earn "experience points" and "milk coins" for purr-sisting in their fitness routine, which they can use to purr-sonalize and upgrade their feline friend. Watch your cat avatar become fitter and fur-midable as it mirrors your own purr-suit of fitness!
 
 ## Table of Contents
 
 - [Purrsonal Trainer](#purrsonal-trainer)
   - [Table of Contents](#table-of-contents)
-  - [Usage](#usage)
   - [Features](#features)
+  - [Cat Avatar System](#cat-avatar-system)
+  - [Shop](#shop)
+  - [Offline Support](#offline-support)
   - [Configuration](#configuration)
   - [Credits](#credits)
   - [Testing](#testing)
@@ -48,6 +50,38 @@ you can also modify these routines on the fly.
 
 ![you can edit routines from the routine page](image-5.png)
 
+## Cat Avatar System
+
+Your feline companion grows stronger alongside you! The cat avatar system features:
+
+- 6 different evolution stages based on your fitness level
+- 7 unique fur patterns to choose from
+- Custom cat naming
+- Avatar that reflects your workout progress
+
+
+![Cutest Cat Avatar](Cat.png)
+
+## Shop
+
+Spend your hard-earned milk coins on:
+
+- Special items to boost workout gains
+- Unique backgrounds for your cat's environment
+- Exclusive cat accessories
+
+![Cat power-ups](ItemShop.png)
+![Backgrounds Shop](BGShop.png)
+
+## Offline Support
+
+Never miss a workout, even without internet connection:
+
+- Cached workout data for offline access
+- Automatic synchronization when back online
+- Seamless Firebase integration
+- Local storage of user preferences and routines
+
 ## Configuration
 
 The app has multi-language support and can be used in Afrikaans by changing your devices language settings
@@ -60,7 +94,7 @@ Testing was implemented by the formidable Nicholas Meyer who had to deal with al
 
 Speaking of untestable code was the backend UserManager that allows the app to interface seamlessly with Firebase Realtime database and was implemented by Michael French (and other than being difficult to test didn't break once throughout the project!)
 
-login and registration as well as middleware was tackled by the dedicated efforts of Jasper Van Niekerk.
+Login and registration as well as middleware was tackled by the dedicated efforts of Jasper Van Niekerk.
 
 And finally, the man holding the entire fort together the true Renaissance man Joshua "joshy squashy" Harvey took on the tasks that no one else could handle.
 
