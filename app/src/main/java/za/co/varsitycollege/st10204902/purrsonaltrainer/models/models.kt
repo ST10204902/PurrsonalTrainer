@@ -135,6 +135,7 @@ data class Exercise(
 data class UserBackground(
     val backgroundID: String = CreateID.GenerateID(),
     val name: String = "",
+    val cost: Int = 0,
     val backgroundURI: String = ""
 )
 
