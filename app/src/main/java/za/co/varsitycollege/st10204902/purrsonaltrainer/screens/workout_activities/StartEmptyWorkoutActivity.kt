@@ -50,6 +50,11 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
     private val calculator = GamifiedStatsManager(this)
     var boundWorkout: UserWorkout? = null
     var currentUser = UserManager.user!!
+    private var currentlevel: Int = 0
+    private var currentMilkCoins: Int = 0
+    private var newlevel: Int = 0
+    private var newMilkCoins: Int = 0
+    private var gainedXP: Int = 0
 
     /**
      * Called when the activity is starting.
@@ -63,9 +68,14 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
 
         // Bind UI to Workout fields (if they exist)
         bindWorkoutDetails()
-        startContinuousNotification()
+
         // Add Exercise functionality
         setupAddExerciseButton()
+        getUserDetails()
+
+        //if (UserManager.user?.workoutInProgress != null && UserManager.user?.workoutInProgress != "") {
+            startContinuousNotification()
+       //}
 
         // Add done button onclick to save the workout
         if (boundWorkout != null)
@@ -82,14 +92,11 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
         this.onExerciseAdded()
 
         binding.doneButton.setOnClickListener {
-            // Update workout in database
-            val workout = saveUserWorkout()
+            try {
+                // First, save the workout
+                val workout = saveUserWorkout()
 
-
-            val intent = Intent(this, NotificationService::class.java)
-            stopService(intent)
-
-            dismissContinuousNotification(this)
+                dismissContinuousNotification(this)
 
             // UI stuffs (Anneme)
             binding.doneButton.setBackgroundResource(R.drawable.svg_green_bblbtn_clicked)
@@ -109,8 +116,17 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
             //TODO: change equippedItem in the database an model to be a int
 
 
-            // Navigating back to home activity
-            navigateTo(this, HomeActivity::class.java, null)
+                // Navigate with a slight delay to ensure notifications are handled
+                Handler(Looper.getMainLooper()).postDelayed({
+                    navigateTo(this, HomeActivity::class.java, null)
+                    finish()
+                }, 600)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                // Still try to navigate even if there's an error
+                navigateTo(this, HomeActivity::class.java, null)
+                finish()
+            }
         }
     }
 
@@ -413,11 +429,65 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
     }
 
     private fun startContinuousNotification() {
-        // Start the continuous notification
-        val intent = Intent(this, NotificationService::class.java)
-        this.startService(intent) // Ensure the service is running
-        NotificationService.showContinuousNotification(this,boundWorkout!!.date.time)
+        try {
+            // Check if the workout has already been completed
+            if (boundWorkout?.durationSeconds ?: 0 > 0) {
+                // Workout already completed, do not start notification
+                return
+            }
+
+            // First ensure any existing notifications are cleared
+            NotificationService.dismissContinuousNotification(this)
+
+            // Wait a brief moment before starting new notification
+            Handler(Looper.getMainLooper()).postDelayed({
+                NotificationService.showContinuousNotification(this, boundWorkout!!.date.time)
+            }, 300)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
+
+
+    //Method that gets the users current level, milk coins
+    private fun getUserDetails() {
+        val user = currentUser
+        currentlevel = user.level
+        currentMilkCoins = user.milkCoins.toLong().toInt()
+        Log.d("check","Current Level: $currentlevel")
+        Log.d("check","Current Milk Coins: $currentMilkCoins")
+    }
+
+    //Method that gets the users current level, milk coins
+    private fun getUserDetailsAgain() {
+        val user = currentUser
+        newlevel = user.level
+        newMilkCoins = user.milkCoins.toLong().toInt()
+        Log.d("check","New Level: $newlevel")
+        Log.d("check","New Milk Coins: $newMilkCoins")
+    }
+
+    private fun startNotificationService() {
+        getUserDetailsAgain()
+        var levelDif = 0
+        var milkCoinDiff = 0
+        if(currentlevel != newlevel) {
+            levelDif = newlevel - currentlevel
+        } else {
+            levelDif = 0
+        }
+        if(currentMilkCoins != newMilkCoins) {
+            milkCoinDiff = newMilkCoins - currentMilkCoins
+        } else {
+            milkCoinDiff = 0
+        }
+
+        NotificationService.showOneOffNotification(
+            this,
+            "Pawsome Workout Results!",
+            "You’ve pounced your way to $gainedXP XP, clawed up $levelDif levels, and scooped up $milkCoinDiff milk coins! Keep up the purr-sistent purr-formance!"
+        )
+    }
 
 }
