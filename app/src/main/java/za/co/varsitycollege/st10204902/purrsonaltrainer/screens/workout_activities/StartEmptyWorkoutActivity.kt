@@ -462,6 +462,7 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
     //Method that gets the users current level, milk coins
     private fun getUserDetailsAgain() {
         val user = currentUser
+        val catName = user.catName
         newlevel = user.level
         newMilkCoins = user.milkCoins.toLong().toInt()
         Log.d("check","New Level: $newlevel")
@@ -470,6 +471,8 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
 
     private fun startNotificationService() {
         getUserDetailsAgain()
+        val user = currentUser
+        val catName = user.catName
         var levelDif = 0
         var milkCoinDiff = 0
         if(currentlevel != newlevel) {
@@ -483,11 +486,31 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
             milkCoinDiff = 0
         }
 
-        NotificationService.showOneOffNotification(
-            this,
-            "Pawsome Workout Results!",
-            "You’ve pounced your way to $gainedXP XP, clawed up $levelDif levels, and scooped up $milkCoinDiff milk coins! Keep up the purr-sistent purr-formance!"
-        )
+
+        if(gainedXP == 0) {
+            NotificationService.showOneOffNotification(
+                this,
+                "Pawsome Workout Results!",
+                "$catName is disapointed in you! You didn't gain any XP or milk coins! Keep up the purr-sistent purr-formance!"
+            )
+        } else{
+            if (levelDif == 0) {
+                NotificationService.showOneOffNotification(
+                    this,
+                    "Pawsome Workout Results!",
+                    "$catName has pounced their way to $gainedXP XP, and scooped up $milkCoinDiff milk coins! Keep up the purr-sistent purr-formance!"
+                )
+            } else {
+                NotificationService.showOneOffNotification(
+                    this,
+                    "Pawsome Workout Results!",
+                    "$catName has pounced their way to $gainedXP XP, clawed up $levelDif levels, and scooped up $milkCoinDiff milk coins! Keep up the purr-sistent purr-formance!"
+                )
+            }
+        }
+
+
+
     }
 
 }
