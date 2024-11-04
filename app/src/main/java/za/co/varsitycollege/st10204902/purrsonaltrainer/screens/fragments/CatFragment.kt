@@ -21,6 +21,7 @@ import za.co.varsitycollege.st10204902.purrsonaltrainer.screens.shop.ShopChoiceA
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.GetCatDrawableId
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.GamifiedStatsManager
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.navigateTo
+import za.co.varsitycollege.st10204902.purrsonaltrainer.stores.ItemsStore
 
 /**
  * A simple [Fragment] subclass.
@@ -59,6 +60,28 @@ class CatFragment : Fragment() {
                 layout.background =
                     ContextCompat.getDrawable(requireContext(), R.drawable.cat_background_1)
             }
+            val equippedItemId = currentUser!!.equippedItem
+            //Find the URI of the equipped item in ItemsStore
+            val equippedItem = ItemsStore.globalItems.find { it.itemID == equippedItemId }
+            val equippedItemButton = view.findViewById<ImageButton>(R.id.equipped_item_button)
+            if(equippedItemId != "" && equippedItem != null) {
+                try{
+                    val layout = view.findViewById<LinearLayout>(R.id.cat_fragment)
+
+                    val resourceId = resources.getIdentifier(
+                        equippedItem.itemURI,
+                        "drawable", requireContext().packageName
+                    )
+                    val drawable = ContextCompat.getDrawable(requireContext(), resourceId)
+
+                    equippedItemButton.setImageDrawable(drawable)
+                } catch (e: Exception) {
+                    Log.e(TAG, "Failed to set equipped item", e)
+                }
+            } else{
+                equippedItemButton.visibility = View.GONE
+            }
+
         }
 
         // Setup xp bar and level

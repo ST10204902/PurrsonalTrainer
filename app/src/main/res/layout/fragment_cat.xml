@@ -19,6 +19,15 @@
         android:layout_marginTop="-5dp">
 
         <ImageButton
+            android:id="@+id/equipped_item_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/icon_button_shape"
+            android:scaleType="fitXY"
+            android:padding="13dp"
+            android:layout_marginEnd="12dp"/>
+
+        <ImageButton
             android:id="@+id/cat_shop_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
