@@ -139,4 +139,5 @@
     <string name="_20kg_placeholder">20kg</string>
     <string name="item_text_placeholder">Item Text</string>
     <string name="_4x_leg_extension_placeholder">4x leg extension</string>
+    <string name="locked">locked</string>
 </resources>

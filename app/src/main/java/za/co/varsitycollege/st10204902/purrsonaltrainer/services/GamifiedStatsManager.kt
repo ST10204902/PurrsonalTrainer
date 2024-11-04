@@ -271,7 +271,7 @@ class GamifiedStatsManager(private val context: Context) {
         // Base milk coins per workout
         var milkCoins = 1 // User gets 1 coin just for submitting a workout
 
-        val totalItemCost = 60.0
+        val totalItemCost = 69.0
         val levelNeededToPurchaseAllItems = 50
 
         // Scaling factor to ensure enough milk coins by a certain level

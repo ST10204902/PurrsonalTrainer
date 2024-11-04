@@ -10,6 +10,7 @@ import android.view.WindowManager
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import za.co.varsitycollege.st10204902.purrsonaltrainer.R
 import za.co.varsitycollege.st10204902.purrsonaltrainer.backend.UserManager
 import za.co.varsitycollege.st10204902.purrsonaltrainer.databinding.ActivityItemShopBinding
@@ -67,7 +68,16 @@ class ItemShopActivity : AppCompatActivity() {
                 shopItemName.text = it.name
                 shopItemImage.setImageResource(imageResource)
                 milkcoinsComponent.milkcoinsAmount.reInitialiseComponent(startColorRes, endColorRes)
+                milkcoinsComponent.milkcoinsImage.setImageResource(R.drawable.milkcoin)
                 milkcoinsComponent.milkcoinsAmount.text = it.cost.toString()
+                if (currentUser != null) {
+                    if (currentUser!!.userInventory.contains(item))
+                    {
+                        milkcoinsComponent.milkcoinsAmount.text = ""
+                        milkcoinsComponent.milkcoinsImage.isVisible = false
+                    }
+                }
+
                 root.setOnClickListener { _ ->
                     Log.d(TAG, "setupShopItem: Item ${it.name} clicked")
                     showItemDetailsDialog(it)
@@ -110,10 +120,14 @@ class ItemShopActivity : AppCompatActivity() {
         with(dialogBinding) {
             itemName.text = item.name
             itemDescription.text = item.description
+            tvPrice.text = item.cost.toString()
             val user = currentUser  // Get the latest user data
             if (user != null) {
+                // the user has the item
                 if (user.userInventory.contains(item)) {
                     btnPurchase.text = getString(R.string.owned)
+                    ivCoin.isVisible = false
+                    tvPrice.text = ""
                     // set the button colour to show that the item is owned
                     btnPurchase.background = resources.getDrawable(R.drawable.svg_purple_bblbtn)
                     if (user.equippedItem == item.itemID) {
@@ -124,11 +138,25 @@ class ItemShopActivity : AppCompatActivity() {
                         btnPurchase.text = getString(R.string.equip)
                         Log.d(TAG, "showItemDetailsDialog: Item ${item.name} can be equipped")
                     }
-                } else {
+                } else  // the user does not have the item
+                {
                     btnPurchase.text = getString(R.string.buy)
+
                     if (user.milkCoins < item.cost) {
                         btnPurchase.isEnabled = false
+                        btnPurchase.background =
+                            resources.getDrawable(R.drawable.svg_grey_bblbtn)
                         Log.d(TAG, "showItemDetailsDialog: Not enough coins to buy ${item.name}")
+                    }
+                    // handle annemes plumbob item
+                    if (item.itemID == "4") {
+                        if (user.userWorkouts.size < 50) {
+                            btnPurchase.isEnabled = false
+                            btnPurchase.text = getString(R.string.locked)
+                            btnPurchase.background =
+                                resources.getDrawable(R.drawable.svg_grey_bblbtn)
+                            Log.d(TAG, "complete 50 workouts to unlock this item")
+                        }
                     }
                 }
             }
