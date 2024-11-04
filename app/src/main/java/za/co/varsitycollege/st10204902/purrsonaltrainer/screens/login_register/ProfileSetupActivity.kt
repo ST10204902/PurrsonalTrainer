@@ -24,14 +24,13 @@ class ProfileSetupActivity : AppCompatActivity() {
 
         // CatAvatarSetup
         val swipableSelector = binding.profileSetupCatSwipeSelector
-        swipableSelector.setItems(GetCatAvatars()) {}
+        swipableSelector.setItems(GetCatAvatars(), 150) {}
 
         // Navigation from next button
         binding.profileSetupNext.setOnClickListener {
             // Add the cat information to Firebase
             UserManager.updateCatName(catName.toString())
             UserManager.updateCatURI(swipableSelector.getCurrentItemPosition().toString())
-            Toast.makeText(this, swipableSelector.getCurrentItemPosition().toString(), Toast.LENGTH_SHORT).show()
 
             navigateTo(this, HomeActivity::class.java, null)
         }

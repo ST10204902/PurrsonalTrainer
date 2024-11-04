@@ -40,22 +40,10 @@
                 android:fontFamily="@font/knicknack_black"
                 android:textSize="50sp"
                 app:startColor="@color/shop_header_color"
-                app:endColor="@color/shop_header_color"
+                app:endColor="@color/routine_end_color"
                 app:strokeColor="@color/default_stroke_color"
                 app:strokeWidth="15dp"
                 android:elevation="2dp"/>
-
-            <za.co.varsitycollege.st10204902.purrsonaltrainer.frontend_logic.GradientTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-60dp"
-                android:text="@string/gear"
-                android:fontFamily="@font/knicknack_black"
-                android:textSize="50sp"
-                app:startColor="@color/routine_end_color"
-                app:endColor="@color/routine_end_color"
-                app:strokeColor="@color/default_stroke_color"
-                app:strokeWidth="15dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
