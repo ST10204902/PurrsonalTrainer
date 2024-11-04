@@ -28,13 +28,38 @@ import za.co.varsitycollege.st10204902.purrsonaltrainer.services.navigateTo
  * create an instance of this fragment.
  */
 class CatFragment : Fragment() {
-
+    private val currentUser get() = UserManager.user  // Updated here
+    private val TAG = "CatFragment"
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View?
     { // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_cat, container, false)
+        // set the background image
+        if (currentUser != null) {
+            val backgroundURI = currentUser!!.backgroundURI
+            if (backgroundURI != "") {
+                try {
+                    val layout = view.findViewById<LinearLayout>(R.id.cat_fragment)
+
+                    val resourceId = resources.getIdentifier(
+                        backgroundURI,
+                        "drawable", requireContext().packageName
+                    )
+                    val drawable = ContextCompat.getDrawable(requireContext(), resourceId)
+
+                    layout.background = drawable
+
+                } catch (e: Exception) {
+                    Log.e(TAG, "Failed to set background", e)
+                }
+            } else {
+                val layout = view.findViewById<LinearLayout>(R.id.cat_fragment)
+                layout.background =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.cat_background_1)
+            }
+        }
 
         // Setup xp bar and level
         val xpBar = view.findViewById<LinearLayout>(R.id.xp_bar)
@@ -42,6 +67,7 @@ class CatFragment : Fragment() {
         val xpBarProgress = xpBar.findViewById<ImageView>(R.id.progressBarProgress)
         val progressbarContainer = xpBar.findViewById<FrameLayout>(R.id.progressBarContainer)
         val progressBarContent = xpBar.findViewById<ConstraintLayout>(R.id.progressBarContent)
+        val background = view.background
 
         // Setting cat level
         if (UserManager.user != null)
@@ -92,7 +118,7 @@ class CatFragment : Fragment() {
         }
         catch (e: Exception)
         {
-            Log.e("Cat Fragment", "Failed to set cat avatar", e)
+            Log.e(TAG, "Failed to set cat avatar", e)
         }
 
         return view
