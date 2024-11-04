@@ -111,7 +111,9 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
                 val equippedItem = if (index != "") ItemsStore.globalItems[UserManager.user!!.equippedItem.toInt()] else null
 
                 calculator.updateUserStatsAfterWorkout(currentUser,workout, equippedItem)
+                resetRoutineCompleted(workout)
                 UserManager.resetWorkoutInProgress()
+
             }
             //TODO: change equippedItem in the database an model to be a int
 
@@ -164,6 +166,19 @@ class StartEmptyWorkoutActivity : AppCompatActivity(), ExerciseAddedListener, On
             return duration.seconds.toInt()
         }
         return boundWorkout!!.durationSeconds
+    }
+
+    /**
+     * Resets the completed status of the routine.
+     * @param workout The workout to reset.
+     */
+    private fun resetRoutineCompleted(workout: UserWorkout) {
+        val completedRoutine = UserManager.user!!.userRoutines.values.firstOrNull { it.name == workout.name }
+        completedRoutine?.exercises?.values?.forEach { exercise ->
+            exercise.sets.values.forEach { set ->
+                set.completed = false
+            }
+        }
     }
 
     /**
