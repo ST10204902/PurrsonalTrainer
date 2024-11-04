@@ -31,9 +31,9 @@
             android:layout_height="wrap_content"
             android:text="Cat Name"
             android:fontFamily="@font/knicknack_black"
-            android:textSize="60sp"
-            app:startColor="@color/soft_lime_green"
-            app:endColor="@color/olive_green"
+            android:textSize="65sp"
+            app:startColor="@color/yellow_start"
+            app:endColor="@color/orange_start"
             app:strokeColor="@color/default_stroke_color"
             app:strokeWidth="15dp" />
 
@@ -58,6 +58,16 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="50sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_setup_message"
+            android:textColor="@color/white"
+            android:fontFamily="@font/knicknack_medium"
+            android:textAlignment="center"
+            android:textSize="18dp"
+            android:layout_marginTop="5dp"/>
 
     </LinearLayout>
 

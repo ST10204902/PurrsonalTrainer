@@ -81,4 +81,5 @@
     <string name="equipped">equipped</string>
     <string name="buy">Buy</string>
     <string name="equip">equip</string>
+    <string name="profile_setup_message">Psst! You can change this later!</string>
 </resources>
