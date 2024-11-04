@@ -28,13 +28,14 @@
             <TextView
                 android:id="@+id/workoutDayOfWeek"
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/rounded"
                 android:text="@string/fri_placeholder"
                 android:textSize="17sp"
                 android:textColor="@color/workout_text_color"
                 android:gravity="center"
-                android:paddingTop="10dp"/>
+                android:paddingTop="10dp"
+                android:layout_marginTop="-5dp"/>
 
             <TextView
                 android:id="@+id/workoutDayOfMonth"
@@ -44,7 +45,8 @@
                 android:text="10"
                 android:textSize="38sp"
                 android:textColor="@color/workout_text_color"
-                android:gravity="center" />
+                android:gravity="center"
+                android:layout_marginTop="-5dp"/>
         </LinearLayout>
 
         <LinearLayout

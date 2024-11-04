@@ -17,36 +17,38 @@
     android:paddingHorizontal="30dp"
     android:elevation="10dp">
 
-        <LinearLayout
-            android:layout_marginTop="5dp"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:orientation="vertical"
-            android:elevation="20dp"
-            android:padding="0dp"
-            android:background="@drawable/calendar_background">
+       <LinearLayout
+           android:layout_marginTop="5dp"
+           android:layout_width="70dp"
+           android:layout_height="70dp"
+           android:orientation="vertical"
+           android:elevation="20dp"
+           android:padding="0dp"
+           android:background="@drawable/calendar_background">
 
-            <TextView
-                android:id="@+id/workoutDayOfWeek"
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:fontFamily="@font/rounded"
-                android:text="@string/fri_placeholder"
-                android:textSize="17sp"
-                android:textColor="@color/workout_text_color"
-                android:gravity="center"
-                android:paddingTop="10dp"/>
+           <TextView
+               android:id="@+id/workoutDayOfWeek"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:fontFamily="@font/rounded"
+               android:text="@string/fri_placeholder"
+               android:textSize="17sp"
+               android:textColor="@color/workout_text_color"
+               android:gravity="center"
+               android:paddingTop="10dp"
+               android:layout_marginTop="-5dp"/>
 
-            <TextView
-                android:id="@+id/workoutDayOfMonth"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:fontFamily="@font/rounded"
-                android:text="10"
-                android:textSize="38sp"
-                android:textColor="@color/workout_text_color"
-                android:gravity="center" />
-        </LinearLayout>
+           <TextView
+               android:id="@+id/workoutDayOfMonth"
+               android:layout_width="match_parent"
+               android:layout_height="45dp"
+               android:fontFamily="@font/rounded"
+               android:text="10"
+               android:textSize="38sp"
+               android:textColor="@color/workout_text_color"
+               android:gravity="center"
+               android:layout_marginTop="-5dp"/>
+       </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
