@@ -23,11 +23,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingVertical="30dp">
+        android:paddingVertical="30dp"
+        android:gravity="center">
 
         <za.co.varsitycollege.st10204902.purrsonaltrainer.frontend_logic.GradientEditText
             android:id="@+id/profile_setup_cat_name"
-            android:layout_width="match_parent"
+            android:textAlignment="center"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cat Name"
             android:fontFamily="@font/knicknack_black"
@@ -35,7 +37,9 @@
             app:startColor="@color/yellow_start"
             app:endColor="@color/orange_start"
             app:strokeColor="@color/default_stroke_color"
-            app:strokeWidth="15dp" />
+            app:strokeWidth="15dp"
+            android:inputType="textMultiLine"
+            />
 
         <za.co.varsitycollege.st10204902.purrsonaltrainer.components.SwipeSelectorView
             android:id="@+id/profile_setup_cat_swipe_selector"

@@ -29,16 +29,16 @@
             android:orientation="vertical">
 
             <za.co.varsitycollege.st10204902.purrsonaltrainer.frontend_logic.GradientTextView
-                android:id="@+id/workoutTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp"
-                android:text="Empty Workout"
-                android:fontFamily="@font/knicknack_black"
-                android:textSize="57sp"
-                android:gravity="center"
-                android:maxLines="2"
-                android:ellipsize="none"
+            android:id="@+id/workoutTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:text="Empty Workout"
+            android:fontFamily="@font/knicknack_black"
+            android:textSize="57sp"
+            android:gravity="center"
+            android:maxLines="2"
+            android:ellipsize="none"
             android:singleLine="false"
             app:strokeColor="@color/default_stroke_color"
             app:strokeWidth="15dp"/>
