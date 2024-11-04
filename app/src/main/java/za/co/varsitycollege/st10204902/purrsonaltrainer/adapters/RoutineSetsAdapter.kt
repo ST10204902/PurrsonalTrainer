@@ -46,7 +46,7 @@ class RoutineSetsAdapter(
             previousWeight = ""
         }
         else {
-            previousWeight = previousWeights[position]
+            previousWeight = previousWeights.last()
         }
         // setType
         when (set.setType)
