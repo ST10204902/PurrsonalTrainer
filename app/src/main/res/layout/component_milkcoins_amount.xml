@@ -17,7 +17,7 @@
         android:id="@+id/milkcoins_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="-22dp"
+        android:layout_marginStart="-20dp"
         android:text="25"
         android:fontFamily="@font/knicknack_black"
         android:textSize="55sp"
