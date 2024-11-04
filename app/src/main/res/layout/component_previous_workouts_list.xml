@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="August 2024"
+            android:text="@string/placeholder_date"
             android:textColor="#B3FFFFFF"
             android:fontFamily="@font/knicknack_medium"
             android:textSize="20sp"/>
@@ -30,7 +30,7 @@
             android:gravity="end"
             android:layout_weight="1"
             android:textColor="#B3FFFFFF"
-            android:text="2 Workouts"
+            android:text="@string/placeholder_workout_count"
             android:fontFamily="@font/knicknack_medium"
             android:textSize="20sp"/>
     </LinearLayout>

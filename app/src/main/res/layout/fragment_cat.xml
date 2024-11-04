@@ -1,14 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cat_fragment"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.fragments.CatFragment">
+    tools:context=".screens.fragments.CatFragment"
+    android:orientation="vertical"
+    android:background="@drawable/cat_background_1"
+    android:paddingHorizontal="10dp"
+    android:paddingTop="30dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <include android:id="@+id/xp_bar" layout="@layout/component_xp_bar"/>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="cat fragment" />
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:layout_marginTop="-5dp">
 
-</FrameLayout>
+        <ImageButton
+            android:id="@+id/equipped_item_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/icon_button_shape"
+            android:scaleType="fitXY"
+            android:padding="13dp"
+            android:layout_marginEnd="12dp"/>
+
+        <ImageButton
+            android:id="@+id/cat_shop_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/icon_button_shape"
+            android:src="@drawable/shop_icon"
+            android:scaleType="fitXY"
+            android:padding="13dp"/>
+
+        <ImageButton
+            android:id="@+id/cat_settings_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/icon_button_shape"
+            android:src="@drawable/settings_deselected"
+            android:scaleType="fitXY"
+            android:padding="12dp"
+            android:layout_marginStart="12dp"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/cat_fragment_avatar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginHorizontal="20dp"/>
+
+</LinearLayout>

@@ -135,16 +135,18 @@ object UserManager {
             userID = userId,
             name = "",
             catName = "",
-            experiencePoints = "",
+            experiencePoints = 0,
             backgroundURI = "",
+            level = 0,
+            equippedItem = "",
             catURI = "",
-            milkCoins = "",
+            milkCoins = 0,
             userRoutines = emptyMap(),
             userWorkouts = emptyMap(),
             userExercises = emptyMap(),
             userAchievements = emptyMap(),
-            userInventory = emptyMap(),
-            userBackgrounds = emptyMap()
+            userInventory = emptyList(),
+            userBackgrounds = emptyList(),
         )
 
         try {
@@ -173,6 +175,24 @@ object UserManager {
     }
 
     /**
+     * Updates the user's level
+     * @param newLevel The new level to update the user with
+     */
+    fun updateUserInventory(newItem: Item) {
+        if (userIsLoggedIn()) {
+            _userFlow.update { user ->
+                user?.let {
+                    val updatedInventory = user.userInventory.toMutableList()
+                    updatedInventory.add(newItem)
+                    it.copy(userInventory = updatedInventory)
+                }
+            }
+        } else {
+            Log.e("UserManager.updateUserInventory", "User is not logged in")
+        }
+    }
+
+    /**
      * Updates the user's cat name
      * @param newCatName The new cat name to update the user with
      */
@@ -187,16 +207,42 @@ object UserManager {
     }
 
     /**
+     * Updates the user's equiped item
+     * @param newItem The new item to update the user with
+     */
+    fun updateEquipedItem(newItem: String) {
+        if (userIsLoggedIn()) {
+            _userFlow.update { user ->
+                user?.copy(equippedItem = newItem)
+            }
+        } else {
+            Log.e("UserManager.updateEquipedItem", "User is not logged in")
+        }
+    }
+
+    /**
      * Updates the user's experience points
      * @param newPoints The new experience points to update the user with
      */
-    fun updateExperiencePoints(newPoints: String) {
+    fun updateExperiencePoints(newPoints: Int) {
         if (userIsLoggedIn()) {
             _userFlow.update { user ->
                 user?.copy(experiencePoints = newPoints)
             }
         } else {
             Log.e("UserManager.updateExperiencePoints", "User is not logged in")
+        }
+    }
+
+
+
+    fun updateLevel(newLevel: Int) {
+        if (userIsLoggedIn()) {
+            _userFlow.update { user ->
+                user?.copy(level = newLevel)
+            }
+        } else {
+            Log.e("UserManager.updateLevel", "User is not logged in")
         }
     }
 
@@ -232,7 +278,7 @@ object UserManager {
      * Updates the user's milk coins
      * @param newCoins The new milk coins to update the user with
      */
-    fun updateMilkCoins(newCoins: String) {
+    fun updateMilkCoins(newCoins: Int) {
         if (userIsLoggedIn()) {
             _userFlow.update { user ->
                 user?.copy(milkCoins = newCoins)
@@ -708,49 +754,13 @@ object UserManager {
         if (userIsLoggedIn()) {
             _userFlow.update { user ->
                 user?.let {
-                    val updatedInventory = user.userInventory + (newItem.itemID to newItem)
+                    val updatedInventory = user.userInventory.toMutableList()
+                    updatedInventory.add(newItem)
                     it.copy(userInventory = updatedInventory)
                 }
             }
         } else {
             Log.e("UserManager.addItemToInventory", "User is not logged in")
-        }
-    }
-
-    /**
-     * Removes an item from the user's inventory
-     * @param itemID The ID of the item to remove
-     */
-    fun removeItemFromInventory(itemID: String) {
-        if (userIsLoggedIn()) {
-            _userFlow.update { user ->
-                val inventory = user?.userInventory
-                if (inventory.isNullOrEmpty() || !inventory.containsKey(itemID)) {
-                    Log.w("UserManager", "User Inventory is empty or the item doesn't exist")
-                    return@update user // Return the user unchanged
-                }
-                user.let {
-                    val updatedInventory = user.userInventory - (itemID)
-                    it.copy(userInventory = updatedInventory)
-                }
-            }
-        } else {
-            Log.e("UserManager.removeItemFromInventory", "User is not logged in")
-        }
-    }
-
-    /**
-     * Updates an item in the user's inventory
-     * @param itemID The ID of the item to update
-     * @param updatedItem The updated item to replace the old one
-     */
-    fun updateUserItem(itemID: String, updatedItem: Item) {
-        if (userIsLoggedIn()) {
-            val newItem = updatedItem.copy(itemID = itemID)
-            removeItemFromInventory(itemID)
-            addItemToInventory(newItem)
-        } else {
-            Log.e("UserManager.updateUserItem", "User is not logged in")
         }
     }
 
@@ -766,53 +776,13 @@ object UserManager {
         if (userIsLoggedIn()) {
             _userFlow.update { user ->
                 user?.let {
-                    val updatedBackgrounds =
-                        user.userBackgrounds + (newBackground.backgroundID to newBackground)
+                    var updatedBackgrounds = user.userBackgrounds.toMutableList()
+                    updatedBackgrounds.add(newBackground)
                     it.copy(userBackgrounds = updatedBackgrounds)
                 }
             }
         } else {
             Log.e("UserManager.addUserBackground", "User is not logged in")
-        }
-    }
-
-    /**
-     * Removes a background from the user
-     * @param backgroundID The ID of the background to remove
-     */
-    fun removeUserBackground(backgroundID: String) {
-        if (userIsLoggedIn()) {
-            _userFlow.update { user ->
-                val backgrounds = user?.userBackgrounds
-                if (backgrounds.isNullOrEmpty() || !backgrounds.containsKey(backgroundID)) {
-                    Log.w(
-                        "UserManager",
-                        "User Backgrounds are empty or the background doesn't exist"
-                    )
-                    return@update user // Return the user unchanged
-                }
-                user.let {
-                    val updatedBackgrounds = user.userBackgrounds - (backgroundID)
-                    it.copy(userBackgrounds = updatedBackgrounds)
-                }
-            }
-        } else {
-            Log.e("UserManager.removeUserBackground", "User is not logged in")
-        }
-    }
-
-    /**
-     * Updates a background in the user
-     * @param backgroundID The ID of the background to update
-     * @param updatedBackground The updated background to replace the old one
-     */
-    fun updateUserBackground(backgroundID: String, updatedBackground: UserBackground) {
-        if (userIsLoggedIn()) {
-            val newBackground = updatedBackground.copy(backgroundID = backgroundID)
-            removeUserBackground(backgroundID)
-            addUserBackground(newBackground)
-        } else {
-            Log.e("UserManager.updateUserBackground", "User is not logged in")
         }
     }
 
@@ -951,9 +921,12 @@ object UserManager {
                 addUserWorkout(workoutMonday)
                 addUserWorkout(workoutWednesday)
 
-                addExerciseToWorkout(workoutMonday.workoutID, RoutineBuilder.convertToWorkoutExercise(exerciseBenchPress))
-                addExerciseToWorkout(workoutMonday.workoutID, RoutineBuilder.convertToWorkoutExercise(exerciseSquat))
-                addExerciseToWorkout(workoutWednesday.workoutID, RoutineBuilder.convertToWorkoutExercise(exerciseDeadlift))
+                val routineBuilder = RoutineBuilder()
+
+
+                addExerciseToWorkout(workoutMonday.workoutID, routineBuilder.convertToWorkoutExercise(exerciseBenchPress))
+                addExerciseToWorkout(workoutMonday.workoutID, routineBuilder.convertToWorkoutExercise(exerciseSquat))
+                addExerciseToWorkout(workoutWednesday.workoutID, routineBuilder.convertToWorkoutExercise(exerciseDeadlift))
 
                 // Add sets to Bench Press exercise
                 addWorkoutSetToWorkoutExercise(workoutMonday.workoutID, exerciseBenchPress.exerciseID, bpSet1)

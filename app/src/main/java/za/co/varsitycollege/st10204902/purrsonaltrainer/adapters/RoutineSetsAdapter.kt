@@ -13,11 +13,12 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import za.co.varsitycollege.st10204902.purrsonaltrainer.R
+import za.co.varsitycollege.st10204902.purrsonaltrainer.models.Exercise
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.WorkoutSet
-import za.co.varsitycollege.st10204902.purrsonaltrainer.services.SetBuilder
 
 class RoutineSetsAdapter(
     private val sets: MutableList<WorkoutSet>,
+    private val previousWeights:  List<String>,
     private val context: Context,
 ) : RecyclerView.Adapter<RoutineSetsAdapter.RoutineSetsViewHolder>()
 {
@@ -38,8 +39,15 @@ class RoutineSetsAdapter(
 
     override fun onBindViewHolder(holder: RoutineSetsViewHolder, position: Int)
     {
+        val previousWeight: String
         val set = sets[position]
-
+        if (previousWeights.count() <= position)
+        {
+            previousWeight = ""
+        }
+        else {
+            previousWeight = previousWeights.last()
+        }
         // setType
         when (set.setType)
         {
@@ -69,6 +77,19 @@ class RoutineSetsAdapter(
             holder.repsInput.setText(set.reps.toString())
 
 
+        holder.previousWeight.text = previousWeight
+
+        holder.weightInput.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                holder.weightInput.text.clear()  // Clear the text when the TextView is selected
+            }
+            else
+            {
+                val weight = holder.weightInput.text.toString().toIntOrNull() ?: 0
+                set.weight = weight
+            }
+        }
+
 
         holder.weightInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -86,6 +107,17 @@ class RoutineSetsAdapter(
                 // Optional: Do something while the text is being changed
             }
         })
+
+        holder.repsInput.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                holder.repsInput.text.clear()  // Clear the text when the TextView is selected
+            }
+            else
+            {
+                val reps = holder.repsInput.text.toString().toIntOrNull() ?: 0
+                set.reps = reps
+            }
+        }
 
         holder.repsInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {

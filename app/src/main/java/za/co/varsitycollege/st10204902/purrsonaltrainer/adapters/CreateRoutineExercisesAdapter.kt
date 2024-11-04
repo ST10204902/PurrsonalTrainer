@@ -10,8 +10,11 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import za.co.varsitycollege.st10204902.purrsonaltrainer.R
+import za.co.varsitycollege.st10204902.purrsonaltrainer.backend.UserManager
+import za.co.varsitycollege.st10204902.purrsonaltrainer.backend.WorkoutWorker
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.WorkoutExercise
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.WorkoutSet
+import za.co.varsitycollege.st10204902.purrsonaltrainer.services.ExerciseService
 
 interface OnSetsUpdatedListener
 {
@@ -49,10 +52,12 @@ open class CreateRoutineExercisesAdapter(
 
         // Binding initial notes to exercise notes
         holder.notes.setText(exercise.notes)
-
+        val workoutWorker = WorkoutWorker(UserManager.user!!.userWorkouts)
         // Binding routineSets
         val setsList = exercise.sets.values.toMutableList()
-        val adapter = RoutineSetsAdapter(setsList, context)
+        // no workoutID as this is a routine
+        val previousWeightList = workoutWorker.getPreviousWorkoutExercises(exercise.exerciseID,"", setsList)
+        val adapter = RoutineSetsAdapter(setsList,previousWeightList, context)
         holder.routineSets.adapter = adapter
         holder.routineSets.layoutManager = LinearLayoutManager(context)
         holder.routineSets.isNestedScrollingEnabled = false

@@ -15,6 +15,7 @@ import za.co.varsitycollege.st10204902.purrsonaltrainer.backend.UserManager
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.Exercise
 import za.co.varsitycollege.st10204902.purrsonaltrainer.screens.workout_activities.CreateRoutineActivity
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.RoutineBuilder
+import za.co.varsitycollege.st10204902.purrsonaltrainer.services.RoutineBuilderProvider
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.navigateTo
 
 
@@ -28,6 +29,7 @@ private var category: String? = null
  */
 class CreateExerciseFragment : Fragment() {
     private var spinnerItemList = listOf("Reps & Weight", "Time & Distance", "Time")
+    private lateinit var routineBuilder: RoutineBuilder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +48,9 @@ class CreateExerciseFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_create_exercise, container, false)
+
+        routineBuilder = (activity as? RoutineBuilderProvider)?.routineBuilder
+            ?: throw IllegalStateException("Parent activity must implement RoutineBuilderProvider")
 
         val title = view.findViewById<EditText>(R.id.exerciseTitle)
         val workoutType = view.findViewById<AppCompatSpinner>(R.id.workoutTypeSpinner)
@@ -71,7 +76,7 @@ class CreateExerciseFragment : Fragment() {
                     isCustom = true
                 )
                 UserManager.addUserExercise(newExercise)
-                RoutineBuilder.addExercise(newExercise)
+                routineBuilder.addExercise(newExercise)
                 requireActivity().findViewById<FrameLayout>(R.id.chooseCategoryFragmentContainer).visibility = View.GONE
                 requireActivity().findViewById<View>(R.id.chooseCategoryDismissArea).visibility = View.GONE
             }else{
@@ -86,18 +91,18 @@ class CreateExerciseFragment : Fragment() {
                 if(exercise!!.exerciseName != newExercise.exerciseName) {
                     UserManager.updateUserExercise(exercise!!.exerciseID, newExercise)
                     var editedExercise = UserManager.user?.userExercises?.get(exercise!!.exerciseID)
-                    RoutineBuilder.addExercise(editedExercise!!)
+                    routineBuilder.addExercise(editedExercise!!)
                 }
                 if(exercise!!.notes != newExercise.notes) {
                     UserManager.updateUserExercise(exercise!!.exerciseID, newExercise)
                     var editedExercise = UserManager.user?.userExercises?.get(exercise!!.exerciseID)
-                    RoutineBuilder.addExercise(editedExercise!!)
+                    routineBuilder.addExercise(editedExercise!!)
                 }
                 // if they change the measurement type update the exercise
                 if(exercise!!.measurementType != newExercise.measurementType) {
                     UserManager.updateUserExercise(exercise!!.exerciseID, newExercise)
                     var editedExercise = UserManager.user?.userExercises?.get(exercise!!.exerciseID)
-                    RoutineBuilder.addExercise(editedExercise!!)
+                    routineBuilder.addExercise(editedExercise!!)
                 }
                 requireActivity().findViewById<FrameLayout>(R.id.chooseCategoryFragmentContainer).visibility = View.GONE
                 requireActivity().findViewById<View>(R.id.chooseCategoryDismissArea).visibility = View.GONE

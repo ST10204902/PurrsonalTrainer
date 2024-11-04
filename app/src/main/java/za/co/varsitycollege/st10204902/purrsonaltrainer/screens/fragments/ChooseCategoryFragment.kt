@@ -25,6 +25,7 @@ import za.co.varsitycollege.st10204902.purrsonaltrainer.backend.UserManager
 import za.co.varsitycollege.st10204902.purrsonaltrainer.models.Exercise
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.ExerciseService
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.RoutineBuilder
+import za.co.varsitycollege.st10204902.purrsonaltrainer.services.RoutineBuilderProvider
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.SlideUpPopup
 import java.io.InputStreamReader
 
@@ -34,6 +35,7 @@ import java.io.InputStreamReader
 class ChooseCategoryFragment() : Fragment() {
 
     private lateinit var categories: MutableList<String>
+    private lateinit var routineBuilder: RoutineBuilder
     private val usersCustomCategories: List<String>?
         get() = UserManager.user?.customCategories
 
@@ -50,6 +52,11 @@ class ChooseCategoryFragment() : Fragment() {
     ): View?
     {
         val view = inflater.inflate(R.layout.fragment_choose_category, container, false)
+
+        routineBuilder = (activity as? RoutineBuilderProvider)?.routineBuilder
+            ?: throw IllegalStateException("Parent activity must implement RoutineBuilderProvider")
+
+
         val exerciseService = ExerciseService(requireContext())
         categories = exerciseService.defaultCategories.toMutableList()
 
@@ -97,7 +104,7 @@ class ChooseCategoryFragment() : Fragment() {
                             requireContext(),
                             object : ExerciseAdapter.OnItemClickListener {
                                 override fun onItemClick(exercise: Exercise) {
-                                    RoutineBuilder.addExercise(exercise)
+                                    routineBuilder.addExercise(exercise)
                                     exerciseService.updateExerciseService()
                                     requireActivity().findViewById<FrameLayout>(R.id.chooseCategoryFragmentContainer).visibility = View.GONE
                                     requireActivity().findViewById<View>(R.id.chooseCategoryDismissArea).visibility = View.GONE

@@ -23,13 +23,16 @@ import za.co.varsitycollege.st10204902.purrsonaltrainer.screens.HomeActivity
 import za.co.varsitycollege.st10204902.purrsonaltrainer.screens.fragments.ChooseCategoryFragment
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.ExerciseAddedListener
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.RoutineBuilder
+import za.co.varsitycollege.st10204902.purrsonaltrainer.services.RoutineBuilderProvider
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.SlideUpPopup
 import za.co.varsitycollege.st10204902.purrsonaltrainer.services.navigateTo
 import java.util.Date
 
-class MadeRoutineActivity : AppCompatActivity(), ExerciseAddedListener, OnSetsUpdatedListener {
+class MadeRoutineActivity : AppCompatActivity(), ExerciseAddedListener, OnSetsUpdatedListener,
+    RoutineBuilderProvider {
     private lateinit var binding: ActivityMadeRoutineBinding
     private lateinit var exercisesRecyclerView: RecyclerView
+    override val routineBuilder = RoutineBuilder()
     var selectedColor = "blue"
     var boundRoutine: UserRoutine? = null
 
@@ -41,13 +44,10 @@ class MadeRoutineActivity : AppCompatActivity(), ExerciseAddedListener, OnSetsUp
 
         // Getting data provided from navigation
         getRoutineIfExists()
-
         // Setting up exercises for this routine
         setupExercises()
-
         // Bind routine details to fields
         bindRoutineDetails()
-
         // Adding an exercise Onclick setup
         setupAddExerciseButton()
 
@@ -75,7 +75,7 @@ class MadeRoutineActivity : AppCompatActivity(), ExerciseAddedListener, OnSetsUp
     private fun setupDoneButton()
     {
         // Subscribing this activity to the ExerciseAddedListener for the RoutineBuilder
-        RoutineBuilder.addExerciseAddedListener(this)
+        routineBuilder.addExerciseAddedListener(this)
         // Check for existing exercises
         this.onExerciseAdded()
 
@@ -84,12 +84,12 @@ class MadeRoutineActivity : AppCompatActivity(), ExerciseAddedListener, OnSetsUp
 
         binding.doneButton.setOnClickListener {
             // Add Routine to database
-            RoutineBuilder.setRoutineName(txtRoutineName.text.toString())
-            RoutineBuilder.setRoutineColor(selectedColor)
-            RoutineBuilder.setRoutineDescription(txtDescription.text.toString())
+            routineBuilder.setRoutineName(txtRoutineName.text.toString())
+            routineBuilder.setRoutineColor(selectedColor)
+            routineBuilder.setRoutineDescription(txtDescription.text.toString())
 
-            if (RoutineBuilder.hasAnExercise())
-                UserManager.updateUserRoutine(boundRoutine!!.routineID, RoutineBuilder.buildRoutine())
+            if (routineBuilder.hasAnExercise())
+                UserManager.updateUserRoutine(boundRoutine!!.routineID, routineBuilder.buildRoutine())
             else
                 Log.d("CreateRoutineActivity", "No exercises added")
 
@@ -183,10 +183,10 @@ class MadeRoutineActivity : AppCompatActivity(), ExerciseAddedListener, OnSetsUp
             exercisesRecyclerView.layoutManager = LinearLayoutManager(this)
         }
 
-        // Setup RoutineBuilder
+        // Setup routineBuilder
         for (exercise in workoutExercises)
         {
-            RoutineBuilder.addWorkoutExercise(exercise)
+            routineBuilder.addWorkoutExercise(exercise)
         }
     }
 
@@ -207,11 +207,11 @@ class MadeRoutineActivity : AppCompatActivity(), ExerciseAddedListener, OnSetsUp
 
     override fun onExerciseAdded()
     {
-        if (RoutineBuilder.hasAnExercise()) {
+        if (routineBuilder.hasAnExercise()) {
             try
             {
                 val recyclerView = binding.exercisesRecyclerView
-                val userExercises = RoutineBuilder.exercises.values.toMutableList()
+                val userExercises = routineBuilder.exercises.values.toMutableList()
                 val adapter = CreateRoutineExercisesAdapter(userExercises, this)
                 adapter.addSetUpdatedListener(this)
                 recyclerView.adapter = adapter
@@ -230,7 +230,7 @@ class MadeRoutineActivity : AppCompatActivity(), ExerciseAddedListener, OnSetsUp
             setsMap[it.workoutSetID] = it
         }
 
-        val oldExercise = RoutineBuilder.exercises[exerciseID]
+        val oldExercise = routineBuilder.exercises[exerciseID]
         val newExercise = WorkoutExercise(
             exerciseID,
             oldExercise?.exerciseName!!,
@@ -240,6 +240,6 @@ class MadeRoutineActivity : AppCompatActivity(), ExerciseAddedListener, OnSetsUp
             oldExercise.notes,
             oldExercise.measurementType
         )
-        RoutineBuilder.addWorkoutExercise(newExercise)
+        routineBuilder.addWorkoutExercise(newExercise)
     }
 }

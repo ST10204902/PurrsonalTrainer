@@ -15,7 +15,7 @@
         android:layout_marginBottom="16dp"
         android:layout_marginTop="50dp"
         android:fontFamily="@font/rounded"
-        android:text="Are you sure you want to wipe your data? This action cannot be undone."
+        android:text="@string/are_you_sure_you_want_to_wipe_your_data_this_action_cannot_be_undone"
         android:textAlignment="center"
         android:textColor="@color/hint_text"
         android:textSize="22sp"
@@ -44,7 +44,7 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/svg_orange_bblbtn"
             android:fontFamily="@font/knicknack_medium"
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:textColor="@color/white"
             android:textSize="22sp" />
 
@@ -54,7 +54,7 @@
             android:layout_height="69dp"
             android:background="@drawable/svg_green_bblbtn"
             android:fontFamily="@font/knicknack_medium"
-            android:text="Continue"
+            android:text="@string/continue_word"
             android:textColor="@color/white"
             android:textSize="22sp" />
 

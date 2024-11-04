@@ -97,4 +97,37 @@
     <color name="purple_start">#B6ABE3</color>
     <color name="purple_end">#5B45B4</color>
 
+    <color name="xp_level_gradient_start">#C64201</color>
+    <color name="xp_level_gradient_end">#C64201</color>
+
+    <color name="shop_header_color">#FFB478</color>
+
+    <!-- Milk coins colors -->
+    <color name="background_balance_start">#B3EFFF</color>
+    <color name="background_balance_end">#65CBD0</color>
+
+    <!-- Milk coins colors backgrounds -->
+    <color name="background_price_start">#FFC1C6</color>
+    <color name="background_price_end">#CD4B56</color>
+
+    <!-- Nick's Creatine -->
+    <color name="item_nick_start">#B3EFFF</color>
+    <color name="item_nick_end">#65CBD0</color>
+
+    <!-- Michael's Earphones -->
+    <color name="item_michael_start">#FED070</color>
+    <color name="item_michael_end">#F78D37</color>
+
+    <!-- Harvey's Cookies -->
+    <color name="item_harvey_start">#EB937E</color>
+    <color name="item_harvey_end">#FF562F</color>
+
+    <!-- Jasper's Hoodie -->
+    <color name="item_jasper_start">#B6ABE3</color>
+    <color name="item_jasper_end">#9747FF</color>
+
+    <!-- Anneme's Plumbob -->
+    <color name="item_anneme_start">#ACCE84</color>
+    <color name="item_anneme_end">#608420</color>
+
 </resources>

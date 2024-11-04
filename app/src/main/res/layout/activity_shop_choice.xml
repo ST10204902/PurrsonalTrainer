@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".screens.shop.ShopChoiceActivity"
+    android:orientation="vertical">
+
+    <za.co.varsitycollege.st10204902.purrsonaltrainer.components.SwipeSelectorView
+        android:id="@+id/shop_choice_swipable"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

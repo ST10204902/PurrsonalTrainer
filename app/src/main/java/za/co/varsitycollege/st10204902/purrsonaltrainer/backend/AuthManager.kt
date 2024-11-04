@@ -82,7 +82,9 @@ class AuthManager(val auth: FirebaseAuth = FirebaseAuth.getInstance()) {
                             userID,
                             "",
                             "",
-                            "",
+                            0,
+                            0,
+                            1,
                             "",
                             "",
                             "",
@@ -91,8 +93,8 @@ class AuthManager(val auth: FirebaseAuth = FirebaseAuth.getInstance()) {
                             emptyMap(),
                             emptyMap(),
                             emptyMap(),
-                            emptyMap(),
-                            emptyMap()
+                            emptyList(),
+                            emptyList()
                         )
 
                         // Add the user to the database and wait for the result

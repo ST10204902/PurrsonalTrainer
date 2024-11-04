@@ -1,5 +1,8 @@
 package za.co.varsitycollege.st10204902.purrsonaltrainer
 
+import android.content.pm.PackageManager
+import android.Manifest
+import android.os.Build
 import androidx.biometric.BiometricManager
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
@@ -45,6 +49,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var catsApiService: CatsApiService
     private lateinit var idToken: String
 
+
+
     /**
      * Called when the activity is first created.
      * @param savedInstanceState If the activity is being re-created from a previous saved state, this is the state.
@@ -73,6 +79,8 @@ class MainActivity : AppCompatActivity() {
 
         fetchCatFact()
         loadNewCatImage()
+
+
 
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()

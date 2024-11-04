@@ -10,7 +10,7 @@
         android:id="@+id/exerciseTypeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Item Text"
+        android:text="@string/item_text_placeholder"
         android:layout_marginStart="40dp"
         android:fontFamily="@font/rounded"
         android:textSize="20sp"
