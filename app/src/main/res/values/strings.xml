@@ -82,14 +82,14 @@
     <string name="buy">Buy</string>
     <string name="equip">equip</string>
     <string name="new_password">new password</string>
-    <string name="purrfect">Purrfect</string>
+    <string name="purrfect">Purrfect\nScenery</string>
     <string name="scenery">Scenery</string>
     <string name="workout_name">Workout Name</string>
     <string name="cat_settings">Cat Settings</string>
     <string name="cat_name">cat name</string>
     <string name="routine_name">Routine Name</string>
     <string name="google_sign_in">Google Sign In</string>
-    <string name="paw_some">Paw-Some</string>
+    <string name="paw_some">Paw-Some\nGear</string>
     <string name="gear">Gear</string>
     <string name="cat_fact">Cat Fact</string>
     <string name="next">Next</string>
