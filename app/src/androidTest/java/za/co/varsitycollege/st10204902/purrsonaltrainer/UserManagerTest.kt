@@ -48,7 +48,7 @@ class UserManagerTest {
             userWorkouts = emptyMap(),
             userExercises = emptyMap(),
             userAchievements = emptyMap(),
-            userBackgrounds = emptyMap(),
+            userBackgrounds = emptyList(),
             userInventory = emptyList()
         )
 
